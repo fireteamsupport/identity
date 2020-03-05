@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package profiles;
+
+service Accounts {
+    rpc GetProfile(IdRequest) returns (ProfileResponse) {}
+    rpc GetProfiles(empty) returns (stream ProfileResponse) {}
+    rpc PatchProfile(ProfileRequest) returns (ProfileResponse) {}
+    rpc DeleteProfile(IdRequest) returns (Empty) {}
+}
+
+// Accounts
+message ProfileResponse {
+    string uid = 1;
+    string username = 2;
+    string password = 3;
+    string google = 4;
+    string discord = 5;
+    bool   admin = 6;
+    bool   staff = 7;
+    bool   employee = 8;
+    bool   banned = 9;
+    string CreationDate = 10;
+    string LastActivity = 11;
+}
+
+message ProfileRequest {
+    string uid = 1;
+    string username = 2;
+    string password = 3;
+    string google = 4;
+    string discord = 5;
+    bool   admin = 6;
+    bool   staff = 7;
+    bool   employee = 8;
+    bool   banned = 9;
+}
+
+service Auth {
+    rpc Validate(TokenRequest) returns (ValidateResponse) {}
+    rpc Refresh(TokenRequest) returns (TokenResponse) {}
+}
+
+// Auth
+message Token {
+    string token = 1;
+}
+
+message ValidateResponse {
+    string token = 1;
+    bool   valid = 2;
+}
+
+// Generic
+
+message IdRequest {
+    string id = 1;
+}
+
+message Empty {}
