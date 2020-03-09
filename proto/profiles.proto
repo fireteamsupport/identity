@@ -11,29 +11,21 @@ service Accounts {
 
 // Accounts
 message ProfileResponse {
-    string uid = 1;
-    string username = 2;
-    string password = 3;
-    string google = 4;
-    string discord = 5;
-    bool   admin = 6;
-    bool   staff = 7;
-    bool   employee = 8;
-    bool   banned = 9;
-    string CreationDate = 10;
-    string LastActivity = 11;
+    int64  uid = 1;
+    string email = 2;
+    string username = 3;
+    string password = 4;
+    int32  role = 5;
+    string created_at = 6;
+    string updated_at  = 7;
 }
 
 message ProfileRequest {
-    string uid = 1;
-    string username = 2;
-    string password = 3;
-    string google = 4;
-    string discord = 5;
-    bool   admin = 6;
-    bool   staff = 7;
-    bool   employee = 8;
-    bool   banned = 9;
+    int64  uid = 1;
+    string email = 2;
+    string username = 3;
+    string password = 4;
+    int32  role = 5;
 }
 
 service Auth {
@@ -54,7 +46,7 @@ message ValidateResponse {
 // Generic
 
 message IdRequest {
-    string id = 1;
+    int64 id = 1;
 }
 
 message Empty {}

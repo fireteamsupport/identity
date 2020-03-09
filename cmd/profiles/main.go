@@ -41,17 +41,16 @@ func main() {
     signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
     <- sc
 
-    log.Info("Shuting down...")
 
-    dbClient.Close()
-    grpcClient.Close()
+    log.Info("Shuting down...")
+    defer dbClient.Close()
     natsClient.Close()
+    grpcClient.GracefulStop()
 
     ctx, cancel := context.WithTimeout(context.Backgound(), 10*time.Second)
     defer cancel()
-    if err != restClient.Shutdown(ctx); err != nil {
+
+    if err = restClient.Shutdown(ctx); err != nil {
         log.Fatal(err)
     }
-
-    log.Info("Graceful exit")
 }
