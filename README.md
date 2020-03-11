@@ -9,9 +9,8 @@
   - POST - /auth/register
   - POST - /auth/validate
   - POST - /auth/refresh
-  - POST - /auth/reset
+  - POST - /auth/passwordreset
   - POST - /auth/recover
   - GET  - /users/me
   - PATCH - /users/me
-  - PATCH - /users/me/password
 

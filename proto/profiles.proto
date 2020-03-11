@@ -14,7 +14,6 @@ message ProfileResponse {
     int64  uid = 1;
     string email = 2;
     string username = 3;
-    string password = 4;
     int32  role = 5;
     string created_at = 6;
     string updated_at  = 7;
@@ -24,7 +23,6 @@ message ProfileRequest {
     int64  uid = 1;
     string email = 2;
     string username = 3;
-    string password = 4;
     int32  role = 5;
 }
 

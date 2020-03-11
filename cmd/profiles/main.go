@@ -2,11 +2,10 @@ package main
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/profiles/pkg/database"
+    "github.com/fireteamsupport/profiles/internal/database"
     "github.com/fireteamsupport/profiles/internal/config"
     "github.com/fireteamsupport/profiles/internal/natsclient"
     "github.com/fireteamsupport/profiles/internal/restserver"
-    "github.com/fireteamsupport/profiles/internal/grpcserver"
 )
 
 var (
@@ -27,11 +26,6 @@ func main() {
         log.Fatal(err)
     }
 
-    grpcClient, err := grpcserver.New(/* TODO */, dbClient, natsClient)
-    if err != nil {
-        log.Fatal(err)
-    }
-
     restClient, err := restserver.New(/* TODO */, dbClient, natsClient)
     if err != nil {
         log.Fatal(err)
@@ -45,7 +39,6 @@ func main() {
     log.Info("Shuting down...")
     defer dbClient.Close()
     natsClient.Close()
-    grpcClient.GracefulStop()
 
     ctx, cancel := context.WithTimeout(context.Backgound(), 10*time.Second)
     defer cancel()
