@@ -1,4 +1,4 @@
-# Profiles - Authority and Identity Server for fireateamsupport.net
+# Identity server - Authority and Identity Server for fireateamsupport.net
 
 # Rest  
 **Base** /api/v1  
@@ -11,6 +11,6 @@
   - POST - /auth/refresh
   - POST - /auth/passwordreset
   - POST - /auth/recover
-  - GET  - /users/me
+  - GET   - /users/me
   - PATCH - /users/me
 
