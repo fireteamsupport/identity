@@ -2,7 +2,8 @@ package cron
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/profiles/internal/database"
+    "github.com/fireteamsupport/identity/internal/database"
+    "github.com/fireteamsupport/identity/internal/natsclient"
 
 /*
 CRON

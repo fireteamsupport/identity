@@ -1,6 +1,6 @@
 package database
 
-import "github.com/fireteamsupport/profiles/internal/errors"
+import "github.com/fireteamsupport/identity/internal/errors"
 
 func (c *client) GetRefreshTokens(uid int64) (error, []*RefreshToken) {
     rts := []*RefreshToken

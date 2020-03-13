@@ -1,7 +1,7 @@
 package config
 
 import (
-    "github.com/fireteamsupport/profiles/internal/structs"
+    "github.com/fireteamsupport/identity/internal/structs"
     "os"
 )
 

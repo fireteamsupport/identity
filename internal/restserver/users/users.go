@@ -1,8 +1,8 @@
 package restusers
 
 import (
-    "github.com/fireteamsupport/internal/natsclient"
-    "github.com/fireteamsupport/internal/database"
+    "github.com/fireteamsupport/identity/internal/natsclient"
+    "github.com/fireteamsupport/identity/internal/database"
     "github.com/labstack/echo/v4"
 )
 

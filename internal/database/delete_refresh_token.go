@@ -1,6 +1,6 @@
 package database
 
-import "github.com/fireteamsupport/profiles/internal/errors"
+import "github.com/fireteamsupport/identity/internal/errors"
 
 func (c *client) DeleteRefreshToken(token string) (error) {
     rt := RefreshToken{}

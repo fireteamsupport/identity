@@ -3,8 +3,8 @@ package authserver
 import (
     "net/http"
     "github.com/labstack/echo/v4"
-    "github.com/fireteamsupport/profiles/internal/errors"
-    "github.com/fireteamsupport/profiles/internal/structs"
+    "github.com/fireteamsupport/identity/internal/errors"
+    "github.com/fireteamsupport/identity/internal/structs"
 )
 
 func (a *auth) Login(c echo.Context) error {
@@ -20,7 +20,7 @@ func (a *auth) Login(c echo.Context) error {
 
     err, dbuser := a.DBClient.UserLogin(payload.Email)
     if err != nil {
-        if err == errors.NotFound {
+        if err.Code() == errors.NotFound {
             return c.String(http.StatusNotFound, "User not found")
         }
 

@@ -3,11 +3,11 @@ package restserver
 import (
     "github.com/arturoguerra/go-logging"
     "github.com/labstack/echo/v4"
-    "github.com/fireteamsupport/profiles/internal/utils"
-    "github.com/fireteamsupport/profiles/internal/natsclient"
-    "github.com/fireteamsupport/profiles/internal/database"
-    middleware "github.com/fireteamsupport/profiles/internal/restserver/middleware"
-    auth  "github.com/fireteamsupport/profiles/internal/restserver/auth"
+    "github.com/fireteamsupport/identity/internal/utils"
+    "github.com/fireteamsupport/identity/internal/natsclient"
+    "github.com/fireteamsupport/identity/internal/database"
+    middleware "github.com/fireteamsupport/identity/internal/restserver/middleware"
+    auth  "github.com/fireteamsupport/identity/internal/restserver/auth"
     //users "github.com/fireteamsupport/profiles/internal/restserver/users"
 )
 

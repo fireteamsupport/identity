@@ -1,7 +1,7 @@
 package databas
 
 import (
-    "github.com/fireteamsupport/profiles/internal/errors"
+    "github.com/fireteamsupport/identity/internal/errors"
 )
 
 func (c *client) RegisterUser(username, email, password string) (error, *User) {
@@ -19,7 +19,7 @@ func (c *client) RegisterUser(username, email, password string) (error, *User) {
         return nil, newUser
     }
 
-    err := errors.AlreadyExists(email)
+    err := errors.New(errors.Exists, email)
 
     return err, nil
 }

@@ -5,7 +5,7 @@ Gets a single user from our database
 */
 
 import (
-    "github.com/fireteamsupport/profiles/errors"
+    "github.com/fireteamsupport/identity/internal/errors"
 )
 
 func (c *client) UserLogin(email string) (error, *User) {

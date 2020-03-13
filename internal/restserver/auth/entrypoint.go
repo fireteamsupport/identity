@@ -3,12 +3,12 @@ package authserver
 import (
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/profiles/internal/restserver/structs"
-    "github.com/fireteamsupport/profiles/internal/natsclient"
-    "github.com/fireteamsupport/profiles/internal/database"
-    "github.com/fireteamsupport/profiles/internal/jwtmanager"
-    "github.com/fireteamsupport/profiles/internal/rtmanager"
-    "github.com/fireteamsupport/profiles/internal/utils"
+    "github.com/fireteamsupport/identity/internal/restserver/structs"
+    "github.com/fireteamsupport/identity/internal/natsclient"
+    "github.com/fireteamsupport/identity/internal/database"
+    "github.com/fireteamsupport/identity/internal/rtmanager"
+    "github.com/fireteamsupport/identity/internal/utils"
+    "github.com/fireteamsupport/identity/pkg/jwtmanager"
 )
 
 var log = logging.New()

@@ -2,11 +2,11 @@ package main
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/profiles/internal/cron"
-    "github.com/fireteamsupport/profiles/internal/config"
-    "github.com/fireteamsupport/profiles/internal/database"
-    "github.com/fireteamsupport/profiles/internal/natsclient"
-    "github.com/fireteamsupport/profiles/internal/restserver"
+    "github.com/fireteamsupport/identity/internal/cron"
+    "github.com/fireteamsupport/identity/internal/config"
+    "github.com/fireteamsupport/identity/internal/database"
+    "github.com/fireteamsupport/identity/internal/natsclient"
+    "github.com/fireteamsupport/identity/internal/restserver"
 )
 
 var (

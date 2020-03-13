@@ -1,7 +1,7 @@
 package restusers
 
 import (
-    "github.com/fireteamsupport/profiles/internal/restserver/structs"
+    "github.com/fireteamsupport/identity/internal/restserver/structs"
     "github.com/labstack/echo/v4"
 )
 
