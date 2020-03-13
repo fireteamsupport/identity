@@ -12,6 +12,7 @@ type (
     }
 
     Client interface {
+        UserLogin(string) (error, *User)
         GetUser(int64) (error, *User)
         RegisterUser(string, string, string) (error, *User)
         NewRefreshToken(int64, string) *RefreshToken
