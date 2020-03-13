@@ -2,8 +2,9 @@ package main
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/profiles/internal/database"
+    "github.com/fireteamsupport/profiles/internal/cron"
     "github.com/fireteamsupport/profiles/internal/config"
+    "github.com/fireteamsupport/profiles/internal/database"
     "github.com/fireteamsupport/profiles/internal/natsclient"
     "github.com/fireteamsupport/profiles/internal/restserver"
 )
@@ -31,10 +32,14 @@ func main() {
         log.Fatal(err)
     }
 
+    cronTasks, err := cron.New(dbClient, natsClient)
+    if err != nil {
+        log.Fatal(err)
+    }
+
     sc := make(chan os.Signal, 1)
     signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
     <- sc
-
 
     log.Info("Shuting down...")
     defer dbClient.Close()

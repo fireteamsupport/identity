@@ -3,13 +3,13 @@ package structs
 // /auth/login
 type (
     ReqLogin struct {
-        Email string
-        Password string
+        Email    string `json:"email"`
+        Password string `json:"password"`
     }
 
     RespLogin struct {
-        JWT string
-        RefreshToken string
+        AccessToken  string `json:"access_token"`
+        RefreshToken string `json:"refresh_token"`
     }
 )
 

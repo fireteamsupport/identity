@@ -26,10 +26,10 @@ type (
 
     RefreshToken struct {
         gorm.Model
-        RefreshToken string `gorm:"primary_key;auto_increment:false"`
-        UID          int64
-        ExpiresAt    *time.Time
-        IP           string
+        Token     string `gorm:"primary_key;auto_increment:false"`
+        UID       int64
+        ExpiresAt *time.Time
+        IP        string
     }
 )
 
@@ -60,5 +60,15 @@ func (rf *RefreshTOken) BeforeCreate(scope *gorm.Scope) error {
     /* Refresh tokens will naturally expire in 2 weeks */
     exptime := time.Now().In(loc).Add(336 * time.Hour)
 
-    return scope.SetColumn("ExpiresAt", exptime)
+    if err := scope.SetColumn("ExpiresAt", exptime); err != nil {
+        return err
+    }
+
+    token := genToken()
+
+    if err = scope.SetColumn("Token", token); err != nil {
+        return err
+    }
+
+    return nil
 }
