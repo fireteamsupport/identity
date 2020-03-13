@@ -1,41 +1,11 @@
-package restserver
+package authserver
 
 import (
+    "net/http"
     "github.com/labstack/echo/v4"
-    "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/profiles/internal/restserver/structs"
-    "github.com/fireteamsupport/profiles/internal/natsclient"
-    "github.com/fireteamsupport/profiles/internal/database"
-    "github.com/fireteamsupport/profiles/internal/jwtmanager"
-    "github.com/fireteamsupport/profiles/internal/rtmanager"
-    "github.com/fireteamsupport/profiles/internal/utils"
+    "github.com/fireteamsupport/profiles/internal/errors"
+    "github.com/fireteamsupport/profiles/internal/structs"
 )
-
-var log = logging.New()
-
-type auth struct {
-    DBClient database.Client
-    NATSClient natsclient.Client
-    JWTManager jwtmanager.JWTManager
-    RTManager  rtmanager.RTManager
-}
-
-func NewAuthModule(g *echo.Group, opts *utils.Options) error {
-
-    a := &auth{
-        DBClient: opts.DBClient,
-        NATSClient: opts.NATSClient,
-        JWTManager: opts.JWTManager,
-        RTManager: opts.RTManager,
-    }
-
-    g.POST("/login", a.Login)
-    g.POST("/logout", a.Logout, mdlware.UserAuth)
-    g.POST("/register", a.Register)
-    g.POST("/refresh", a.Refresh, mdlware.UserAuth)
-    g.POST("/passwordrest", a.PasswordReset)
-    g.POST("/recover", a.Recover)
-}
 
 func (a *auth) Login(c echo.Context) error {
     payload := new(structs.ReqLogin)
@@ -85,16 +55,4 @@ func (a *auth) Login(c echo.Context) error {
         AccessToken: token,
         RefreshToken: refreshtoken,
     })
-}
-
-func (a *auth) Logout(c echo.Context) error {
-}
-
-func (a *auth) Register(c echo.Context) error {
-}
-
-func (a *auth) PasswordReset(c echo.Context) error {
-}
-
-func (a *auth) Recover(c echo.Context) error {
 }
