@@ -9,7 +9,7 @@ import (
 func (m *jwtManager) Decrypt(tokenString string) (error, *JWTClaims) {
     claims := new(JWTClaims)
 
-    token, err := jwt.ParseWithClaims(tokenString, claims, func(time *jwt.Token) (interface{}, error) {
+    token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
         if _, ok := token.Method.(*jwt.SigningMethodHMAC); ok {
             return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
         }
@@ -22,5 +22,5 @@ func (m *jwtManager) Decrypt(tokenString string) (error, *JWTClaims) {
         return err, nil
     }
 
-    return nil, &claims
+    return nil, claims
 }

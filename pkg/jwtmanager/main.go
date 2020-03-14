@@ -1,5 +1,10 @@
 package jwtmanager
 
+import (
+    "errors"
+    "github.com/dgrijalva/jwt-go"
+)
+
 type (
     User struct {
         UID      int64
@@ -18,8 +23,8 @@ type (
     }
 
     JWTManager interface {
-        Sign(*User) (error, *JWTClaims)
-        Decrypt() (string, error)
+        Sign(*User) (string, error)
+        Decrypt(string) (error, *JWTClaims)
     }
 )
 

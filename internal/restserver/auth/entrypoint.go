@@ -3,28 +3,23 @@ package authserver
 import (
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/events"
-    "github.com/fireteamsupport/identity/internal/database"
+    "github.com/fireteamsupport/identity/internal/restserver/utils"
+    "github.com/fireteamsupport/identity/internal/restserver/middleware"
 )
 
 var log = logging.New()
 
 type auth struct {
-    DB database.Client
-    Events events.Channels
+    *restutils.Options
 }
 
-func New(g *echo.Group, db database.Client, events events.Channels) error {
-
-    a := &auth{
-        DB: db,
-        Events: events,
-    }
+func New(g *echo.Group, opts *restutils.Options) error {
+    a := &auth{opts}
 
     g.POST("/login", a.Login)
-    g.POST("/logout", a.Logout, mdlware.UserAuth)
+    g.POST("/logout", a.Logout, middleware.UserAuth)
     g.POST("/register", a.Register)
-    g.POST("/refresh", a.Refresh, mdlware.UserAuth)
+    g.POST("/refresh", a.RefreshToken, middleware.UserAuth)
     g.POST("/passwordrest", a.PasswordReset)
     g.POST("/recover", a.Recover)
 }

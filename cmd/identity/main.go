@@ -2,11 +2,11 @@ package main
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/cron"
     "github.com/fireteamsupport/identity/internal/config"
-    "github.com/fireteamsupport/identity/internal/events"
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/restserver"
+    "github.com/fireteamsupport/identity/internal/restserver/utils"
+    "github.com/fireteamsupport/identity/internal/utils"
 )
 
 var (
@@ -17,22 +17,30 @@ var (
 func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
 
+    err, jwtManager := jwtmanager.New(/* JWT Secret */)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    err, rtManager := rtManager.New(/* Refresh token mananger */)
+    if err != nil {
+        log.Fatal(err)
+    }
+
     dbClient, err := database.New(/* TODO */)
     if err != nil {
         log.Fatal(err)
     }
 
-    eventsClient, err := events.New(/* TODO */, dbClient)
-    if err != nil {
-        log.Fatal(err)
+    restOpts := restutils.Options{
+        Host: cfg.HTTP.Host,
+        Port: cfg.HTTP.Port,
+        DB: dbClient,
+        JWTMgmt: jwtManager,
+        RTMgmt: rtManager,
     }
 
-    restClient, err := restserver.New(/* TODO */, dbClient, natsClient)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    cronTasks, err := cron.New(dbClient, natsClient)
+    restClient, err := restserver.New(opts)
     if err != nil {
         log.Fatal(err)
     }
@@ -43,7 +51,6 @@ func main() {
 
     log.Info("Shuting down...")
     defer dbClient.Close()
-    eventsClient.Close()
 
     ctx, cancel := context.WithTimeout(context.Backgound(), 10*time.Second)
     defer cancel()
