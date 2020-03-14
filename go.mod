@@ -8,6 +8,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/jinzhu/gorm v1.9.12
 	github.com/labstack/echo/v4 v4.1.15
+	github.com/nats-io/nats.go v1.9.1
 	github.com/onrik/logrus v0.5.1 // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
 )

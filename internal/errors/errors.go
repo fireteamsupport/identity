@@ -6,15 +6,16 @@ import (
 
 const (
     BadRequest = 400
-    Forbidden 401
+    Forbidden = 401
     Unauthorized = 403
     NotFound = 404
+    Exists = 400
     InternalServerError = 502
 )
 
 type (
     JsonError struct {
-        Code string `json:"code"`
+        Code int `json:"code"`
         Message string `json:"message"`
     }
 

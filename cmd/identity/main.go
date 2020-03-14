@@ -4,8 +4,8 @@ import (
     "github.com/arturoguerra/go-logging"
     "github.com/fireteamsupport/identity/internal/cron"
     "github.com/fireteamsupport/identity/internal/config"
+    "github.com/fireteamsupport/identity/internal/events"
     "github.com/fireteamsupport/identity/internal/database"
-    "github.com/fireteamsupport/identity/internal/natsclient"
     "github.com/fireteamsupport/identity/internal/restserver"
 )
 
@@ -22,7 +22,7 @@ func main() {
         log.Fatal(err)
     }
 
-    natsClient, err := natsclient.New(/* TODO */, dbClient)
+    eventsClient, err := events.New(/* TODO */, dbClient)
     if err != nil {
         log.Fatal(err)
     }
@@ -43,7 +43,7 @@ func main() {
 
     log.Info("Shuting down...")
     defer dbClient.Close()
-    natsClient.Close()
+    eventsClient.Close()
 
     ctx, cancel := context.WithTimeout(context.Backgound(), 10*time.Second)
     defer cancel()

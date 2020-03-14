@@ -1,10 +1,9 @@
 package database
 
-import "github.com/fireteamsupport/identity/internal/errors"
 
 func (c *client) GetRefreshTokens(uid int64) (error, []*RefreshToken) {
-    rts := []*RefreshToken
-    log.Infof("Getting Refresh token: %s", token)
-    c.Where("token = ?").First(&rts)
-    return nil, &rt
+    rts := make([]*RefreshToken, 0)
+    log.Infof("Getting Refresh tokens for: %d", uid)
+    c.Where("UID = ?", uid).First(&rts)
+    return nil, rts
 }

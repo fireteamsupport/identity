@@ -3,12 +3,15 @@ package database
 import (
     "fmt"
     "github.com/jinzhu/gorm"
+    "github.com/arturoguerra/go-logging"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+var log = logging.New()
+
 type (
     client struct {
-        *grom.DB
+        *gorm.DB
     }
 
     Client interface {
@@ -16,7 +19,7 @@ type (
         GetUser(int64) (error, *User)
         RegisterUser(string, string, string) (error, *User)
         NewRefreshToken(int64, string) *RefreshToken
-        Save(interface{}) error
+        Save(interface{}) *gorm.DB
     }
 )
 

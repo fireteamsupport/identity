@@ -1,4 +1,4 @@
-package databas
+package database
 
 import (
     "github.com/fireteamsupport/identity/internal/errors"

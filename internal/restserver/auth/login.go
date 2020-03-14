@@ -53,6 +53,5 @@ func (a *auth) Login(c echo.Context) error {
 
     return c.JSON(http.StatusOK, &structs.RespLogin{
         AccessToken: token,
-        RefreshToken: refreshtoken,
     })
 }

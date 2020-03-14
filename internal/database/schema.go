@@ -4,7 +4,6 @@ import (
     "github.com/bwmarrin/snowflake"
     "github.com/jinzhu/gorm"
     "time"
-    "fmt"
 )
 
 type (
@@ -53,7 +52,7 @@ func (rf *RefreshToken) TableName() string {
     return "refresh_tokens"
 }
 
-func (rf *RefreshTOken) BeforeCreate(scope *gorm.Scope) error {
+func (rf *RefreshToken) BeforeCreate(scope *gorm.Scope) error {
     /* We use UTC as our default time */
     loc, _ := time.LoadLocation("UTC")
 
@@ -66,7 +65,7 @@ func (rf *RefreshTOken) BeforeCreate(scope *gorm.Scope) error {
 
     token := genToken()
 
-    if err = scope.SetColumn("Token", token); err != nil {
+    if err := scope.SetColumn("Token", token); err != nil {
         return err
     }
 

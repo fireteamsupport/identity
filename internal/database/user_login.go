@@ -12,7 +12,8 @@ func (c *client) UserLogin(email string) (error, *User) {
     u := User{}
     log.Infof("Getting user for Email: %s", email)
     if c.Where("Email = ?", email).First(&u).RecordNotFound() {
-        return errors.NotFound(uid)
+        return errors.New(errors.NotFound, email), nil
     }
 
     return nil, &u
+}
