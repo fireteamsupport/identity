@@ -6,41 +6,43 @@ import (
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/restserver"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
-    "github.com/fireteamsupport/identity/internal/utils"
 )
 
 var (
     log = logging.New()
-    cfg = config.New()
+    cfg = config.Load()
 )
 
 func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
 
-    err, jwtManager := jwtmanager.New(/* JWT Secret */)
+    err, jwtCfg := jwtmanager.NewEnvCfg()
     if err != nil {
         log.Fatal(err)
     }
 
-    err, rtManager := rtManager.New(/* Refresh token mananger */)
+    err, jwtManager := jwtmanager.New(jwtCfg)
     if err != nil {
         log.Fatal(err)
     }
 
-    dbClient, err := database.New(/* TODO */)
+    err, rtManager := rtManager.New(cfg.RTCfg)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    dbClient, err := database.New(cfg.DBCfg)
     if err != nil {
         log.Fatal(err)
     }
 
     restOpts := restutils.Options{
-        Host: cfg.HTTP.Host,
-        Port: cfg.HTTP.Port,
         DB: dbClient,
         JWTMgmt: jwtManager,
         RTMgmt: rtManager,
     }
 
-    restClient, err := restserver.New(opts)
+    restClient, err := restserver.New(cfg.EchoCfg, opts)
     if err != nil {
         log.Fatal(err)
     }

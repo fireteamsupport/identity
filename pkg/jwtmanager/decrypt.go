@@ -6,15 +6,15 @@ import (
     "fmt"
 )
 
-func (m *jwtManager) Decrypt(tokenString string) (error, *JWTClaims) {
-    claims := new(JWTClaims)
+func (m *jwtManager) Decrypt(tokenString string) (error, *Claims) {
+    claims := new(Claims)
 
     token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-        if _, ok := token.Method.(*jwt.SigningMethodHMAC); ok {
+        if _, ok := token.Method.(*jwt.SigningMethodRSA); ok {
             return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
         }
 
-        return []byte(m.Secret), nil
+        return m.VerifyKey, nil
     })
 
     if !token.Valid {

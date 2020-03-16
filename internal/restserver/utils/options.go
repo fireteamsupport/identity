@@ -10,8 +10,8 @@ import (
 type Options struct {
     Host string
     Port string
-    JWTMgmt *jwtmanager.JWTManager
-    RTMgmt *rtmanager.RTManager
+    JWTMgmt jwtmanager.JWTManager
+    RTMgmt  rtmanager.RTManager
     DB  database.Client
 }
 
@@ -24,5 +24,5 @@ func (opts *Options) GetAddr() string {
         opts.Port = "5000"
     }
 
-    fmt.Sprintf("%s:%s", opts.Host, opts.Port)
+    return fmt.Sprintf("%s:%s", opts.Host, opts.Port)
 }

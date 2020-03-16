@@ -18,7 +18,13 @@ type (
         UserLogin(string) (error, *User)
         GetUser(int64) (error, *User)
         RegisterUser(string, string, string) (error, *User)
+
         NewRefreshToken(int64, string) *RefreshToken
+        ClearRefreshTokens(int64) error
+        DeleteRefreshToken(string, int64) error
+        GetRefreshToken(string) (error, *RefreshToken)
+        GetRefreshTokens(int64) (error, []*RefreshToken)
+
         Save(interface{}) *gorm.DB
     }
 )

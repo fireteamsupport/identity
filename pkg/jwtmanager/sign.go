@@ -6,7 +6,7 @@ import (
 )
 
 func (m *jwtManager) Sign(user *User) (string, error) {
-    claims := JWTClaims{
+    claims := Claims{
         User: *user,
         StandardClaims: jwt.StandardClaims{
             ExpiresAt: time.Now().Add(10 * time.Minute).Unix(),
@@ -14,9 +14,9 @@ func (m *jwtManager) Sign(user *User) (string, error) {
         },
     }
 
-    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+    token := jwt.NewWithClaims(m.SigningMethod, claims)
 
-    tokenString, err := token.SignedString([]byte(m.Secret))
+    tokenString, err := token.SignedString(m.SignKey)
     if err != nil {
         return "", err
     }

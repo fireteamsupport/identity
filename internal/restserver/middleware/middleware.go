@@ -53,7 +53,7 @@ func (m *middleware) Auth(next echo.HandlerFunc) echo.HandlerFunc {
 
         token := split[1]
 
-        err, claims := m.JWT.Decrypt(token)
+        err, claims := m.JWTMgmt.Decrypt(token)
         if err != nil {
             return c.JSON(403, &message{
                 403,

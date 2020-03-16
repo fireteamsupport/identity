@@ -1,8 +1,9 @@
 package jwtmanager
 
 import (
-    "errors"
     "github.com/dgrijalva/jwt-go"
+    "crypto/rsa"
+    "io/ioutil"
 )
 
 type (
@@ -13,28 +14,47 @@ type (
         Role     int
     }
 
-    JWTClaims struct {
+    Claims struct {
         User
         jwt.StandardClaims
     }
 
     jwtManager struct {
-        Secret string
+        SigningMethod jwt.SigningMethod
+        VerifyKey *rsa.PublicKey
+        SignKey *rsa.PrivateKey
     }
 
     JWTManager interface {
         Sign(*User) (string, error)
-        Decrypt(string) (error, *JWTClaims)
+        Decrypt(string) (error, *Claims)
     }
 )
 
+func New(cfg *Config) (error, JWTManager) {
+    signBytes, err := ioutil.ReadFile(cfg.PrivKeyPath)
+    if err != nil {
+        return err, nil
+    }
 
-func New(secret string) (error, JWTManager) {
-    if secret == "" {
-        return errors.New("Invalid secret"), nil
+    signKey, err := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
+    if err != nil {
+        return err, nil
+    }
+
+    verifyBytes, err := ioutil.ReadFile(cfg.PubKeyPath)
+    if err != nil {
+        return err, nil
+    }
+
+    verifyKey, err := jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
+    if err != nil {
+        return err, nil
     }
 
     return nil, &jwtManager{
-        Secret: secret,
+        SigningMethod: jwt.GetSigningMethod("RS256"),
+        VerifyKey: verifyKey,
+        SignKey: signKey,
     }
 }
