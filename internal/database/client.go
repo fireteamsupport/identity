@@ -24,7 +24,7 @@ type (
 
         NewRefreshToken(int64, string) *RefreshToken
         ClearRefreshTokens(int64) error
-        DeleteRefreshToken(string, int64) error
+        DeleteRefreshToken(string) error
         GetRefreshToken(string) (error, *RefreshToken)
         GetRefreshTokens(int64) (error, []*RefreshToken)
 

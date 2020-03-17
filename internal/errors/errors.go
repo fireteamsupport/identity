@@ -8,6 +8,7 @@ const (
     BadRequest = 400
     Forbidden = 401
     Unauthorized = 403
+    Expired = 403
     NotFound = 404
     Exists = 400
     InternalServerError = 502

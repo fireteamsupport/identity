@@ -19,7 +19,7 @@ func (a *auth) RefreshToken(c echo.Context) error {
         return c.String(400, "Invalid payload")
     }
 
-    err, token := a.DB.GetRefreshToken(u.Token)
+    err, token := a.RTMgmt.Get(u.Token)
     if err != nil {
         log.Error(err)
         return c.String(404, "Invalid refresh token")
@@ -29,6 +29,12 @@ func (a *auth) RefreshToken(c echo.Context) error {
     if err != nil {
         log.Error(err)
         return c.String(404, "Missing user")
+    }
+
+    err = a.RTMgmt.Delete(token.Token)
+    if err != nil {
+        log.Error(err)
+        return c.String(500, "Error deleting expired refresh token")
     }
 
     user := &jwtmanager.User{
@@ -43,7 +49,7 @@ func (a *auth) RefreshToken(c echo.Context) error {
         return c.String(http.StatusInternalServerError, "Error creating user token try again later")
     }
 
-    rtoken, err := a.RTMgmt.Create(user.UID, "5.534.55.5")
+    err, rtoken := a.RTMgmt.Create(user.UID, "5.534.55.5")
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating refresh token")

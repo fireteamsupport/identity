@@ -39,7 +39,7 @@ func (a *auth) Register(c echo.Context) error {
         return c.String(http.StatusInternalServerError, "Error creating user token")
     }
 
-    refreshtoken, err := a.RTMgmt.Create(user.UID, "4.2.4.2")
+    err, refreshtoken := a.RTMgmt.Create(user.UID, "4.2.4.2")
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating refresh token")

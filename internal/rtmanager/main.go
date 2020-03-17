@@ -30,10 +30,10 @@ type (
     }
 
     RTManager interface {
-        Create(int64, string) (string, error)
+        Create(int64, string) (error, string)
         GetAll(int64) (error, []*RToken)
-        Get(string) (*RToken, error)
-        Delete(string, int64) error
+        Get(string) (error, *RToken)
+        Delete(string) error
     }
 )
 

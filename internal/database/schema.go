@@ -22,9 +22,6 @@ type (
         Token     string `gorm:"primary_key;auto_increment:false"`
         UID       int64
         IP        string
-        //CreatedAt time.Time
-        //UpdatedAt time.Time
-        //DeletedAt *time.Time
         ExpiresAt *time.Time
     }
 )
@@ -64,7 +61,6 @@ func (rf *RefreshToken) BeforeCreate(scope *gorm.Scope) error {
 
     scope.SetColumn("CreatedAt", time.Now().UTC())
     scope.SetColumn("ExpiresAt", time.Now().UTC().Add(336 * time.Hour))
-    scope.SetColumn("DeletedAt", time.Now().UTC().Add(336 * time.Hour))
 
     return nil
 }
