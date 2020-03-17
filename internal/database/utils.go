@@ -1,6 +1,7 @@
 package database
 
 import (
+    "fmt"
     "strconv"
     "time"
     "io"
@@ -11,5 +12,5 @@ func genToken() string {
 	time := strconv.FormatInt(time.Now().Unix(), 10)
 	h := md5.New()
 	io.WriteString(h, time)
-    return string(h.Sum(nil))
+    return fmt.Sprintf("%x", h.Sum(nil))
 }

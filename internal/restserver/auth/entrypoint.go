@@ -22,7 +22,7 @@ func New(g *echo.Group, opts *restutils.Options) error {
 
     g.POST("/login", a.Login)
     //g.POST("/logout", a.Logout, middleware.UserAuth)
-    //g.POST("/register", a.Register)
+    g.POST("/register", a.Register)
     //g.POST("/refresh", a.RefreshToken, middleware.UserAuth)
     //g.POST("/passwordrest", a.PasswordReset)
     //g.POST("/recover", a.Recover)

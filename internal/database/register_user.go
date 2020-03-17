@@ -7,7 +7,7 @@ import (
 func (c *client) RegisterUser(username, email, password string) (error, *User) {
     u := User{}
 
-    if c.Where("email = ?").First(&u).RecordNotFound() {
+    if c.Where("email = ?", email).First(&u).RecordNotFound() {
         newUser := &User{
             Username: username,
             Email: email,
