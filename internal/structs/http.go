@@ -28,5 +28,17 @@ type (
 )
 
 type (
+    ReqRefresh struct {
+        Token string `json:"token" validate:"required"`
+    }
+
+    RespRefresh struct {
+        AccessToken  string `json:"access_token" validate:"required"`
+        RefreshToken string `json:"refresh_token" validate:"required"`
+        TokenType    string `json:"token_type" validate:"required"`
+    }
+)
+
+type (
     Empty struct {}
 )
