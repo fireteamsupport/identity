@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/jinzhu/gorm"
     "github.com/arturoguerra/go-logging"
+    "github.com/fireteamsupport/identity/internal/config"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
@@ -12,6 +13,8 @@ var log = logging.New()
 type (
     client struct {
         *gorm.DB
+        Config *config.DBConfig
+
     }
 
     Client interface {
@@ -26,6 +29,7 @@ type (
         GetRefreshTokens(int64) (error, []*RefreshToken)
 
         Save(interface{}) *gorm.DB
+        Close() error
     }
 )
 
@@ -45,13 +49,13 @@ func (c *client) Close() error {
     return c.DB.Close()
 }
 
-func New(username, password, host, dbname string) (Client, error) {
-    db, err := connect(username, password, host, dbname)
+func New(cfg *config.DBConfig) (Client, error) {
+    db, err := connect(cfg.User, cfg.Password, cfg.Host, cfg.Name)
     if err != nil {
         return nil, err
     }
 
-    c := &client{db}
+    c := &client{db,cfg}
 
     if err = c.Init(); err != nil {
         return nil, err

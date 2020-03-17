@@ -37,6 +37,6 @@ type (
     }
 )
 
-func New(db database.Client) (RTManager, error) {
-    return &rtManager{db}, nil
+func New(db database.Client) (error, RTManager) {
+    return nil, &rtManager{db}
 }

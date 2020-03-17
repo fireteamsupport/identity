@@ -9,7 +9,7 @@ type DBConfig struct {
     Post string `env:"DB_POST,required"`
     Name string `env:"DB_NAME,required"`
     User string `env:"DB_USER,required"`
-    Pass string `env:"DB_PASSWORD,required"`
+    Password string `env:"DB_PASSWORD,required"`
 }
 
 func DBLoad() *DBConfig {

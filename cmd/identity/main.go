@@ -2,6 +2,7 @@ package main
 
 import (
     "os"
+    "time"
     "os/signal"
     "syscall"
     "context"
@@ -16,11 +17,16 @@ import (
 
 var (
     log = logging.New()
-    cfg = config.New()
 )
 
 func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
+
+    dbcfg := config.DBLoad()
+    dbClient, err := database.New(dbcfg)
+    if err != nil {
+        log.Fatal(err)
+    }
 
     err, jwtCfg := jwtmanager.NewEnvCfg()
     if err != nil {
@@ -32,23 +38,20 @@ func main() {
         log.Fatal(err)
     }
 
-    err, rtManager := rtmanager.New(cfg.RTCfg)
+    err, rtManager := rtmanager.New(dbClient)
     if err != nil {
         log.Fatal(err)
     }
 
-    dbClient, err := database.New(cfg.DBCfg)
-    if err != nil {
-        log.Fatal(err)
-    }
 
-    restOpts := restutils.Options{
+    restOpts := &restutils.Options{
         DB: dbClient,
         JWTMgmt: jwtManager,
         RTMgmt: rtManager,
     }
 
-    restClient, err := restserver.New(cfg.EchoCfg, restOpts)
+    echocfg := config.EchoLoad()
+    restClient, err := restserver.New(echocfg, restOpts)
     if err != nil {
         log.Fatal(err)
     }
@@ -60,7 +63,7 @@ func main() {
     log.Info("Shuting down...")
     defer dbClient.Close()
 
-    ctx, cancel := context.WithTimeout(context.Backgound(), 10*time.Second)
+    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
 
     if err = restClient.Shutdown(ctx); err != nil {
