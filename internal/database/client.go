@@ -45,21 +45,17 @@ func (c *client) Init() error {
     return nil
 }
 
-func (c *client) Close() error {
-    return c.DB.Close()
-}
-
-func New(cfg *config.DBConfig) (Client, error) {
+func New(cfg *config.DBConfig) (error, Client) {
     db, err := connect(cfg.User, cfg.Password, cfg.Host, cfg.Name)
     if err != nil {
-        return nil, err
+        return err, nil
     }
 
     c := &client{db,cfg}
 
     if err = c.Init(); err != nil {
-        return nil, err
+        return err, nil
     }
 
-    return c, err
+    return err, c
 }

@@ -6,7 +6,7 @@ import (
 
 type DBConfig struct {
     Host string `env:"DB_HOST,required"`
-    Post string `env:"DB_POST,required"`
+    Post string `env:"DB_PORT,required"`
     Name string `env:"DB_NAME,required"`
     User string `env:"DB_USER,required"`
     Password string `env:"DB_PASSWORD,required"`

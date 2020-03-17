@@ -4,7 +4,7 @@ import (
     "fmt"
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/rtmanager"
-    "github.com/fireteamsupport/identity/pkg/jwtmanager"
+    "github.com/fireteamsupport/identity/internal/jwtmanager"
 )
 
 type Options struct {

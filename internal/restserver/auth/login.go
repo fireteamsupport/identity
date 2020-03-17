@@ -3,7 +3,7 @@ package authserver
 import (
     "net/http"
     "github.com/labstack/echo/v4"
-    "github.com/fireteamsupport/identity/pkg/jwtmanager"
+    "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/fireteamsupport/identity/internal/structs"
 )
 

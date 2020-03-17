@@ -15,9 +15,6 @@ type (
         Password  string
         Role      int
         Banned    bool
-        CreatedAt time.Time
-        UpdatedAt time.Time
-        DeletedAt *time.Time
     }
 
     RefreshToken struct {
@@ -25,15 +22,16 @@ type (
         Token     string `gorm:"primary_key;auto_increment:false"`
         UID       int64
         IP        string
-        CreatedAt time.Time
+        //CreatedAt time.Time
+        //UpdatedAt time.Time
+        //DeletedAt *time.Time
         ExpiresAt *time.Time
-        DeletedAt *time.Time
     }
 )
 
-func (u *User) TableName() string {
-    return "profiles"
-}
+//func (u *User) TableName() string {
+//    return "profiles"
+//}
 
 func (u *User) BeforeCreate(scope *gorm.Scope) error {
     node, err := snowflake.NewNode(1)

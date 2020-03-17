@@ -8,9 +8,9 @@ import (
     "context"
     "github.com/arturoguerra/go-logging"
     "github.com/fireteamsupport/identity/internal/config"
-    "github.com/fireteamsupport/identity/pkg/jwtmanager"
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/rtmanager"
+    "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/fireteamsupport/identity/internal/restserver"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
 )
@@ -23,7 +23,7 @@ func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
 
     dbcfg := config.DBLoad()
-    dbClient, err := database.New(dbcfg)
+    err, dbClient := database.New(dbcfg)
     if err != nil {
         log.Fatal(err)
     }
@@ -43,7 +43,6 @@ func main() {
         log.Fatal(err)
     }
 
-
     restOpts := &restutils.Options{
         DB: dbClient,
         JWTMgmt: jwtManager,
@@ -51,7 +50,7 @@ func main() {
     }
 
     echocfg := config.EchoLoad()
-    restClient, err := restserver.New(echocfg, restOpts)
+    err, restClient := restserver.New(echocfg, restOpts)
     if err != nil {
         log.Fatal(err)
     }

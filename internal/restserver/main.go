@@ -18,7 +18,7 @@ var (
     log = logging.New()
 )
 
-func New(cfg *config.EchoConfig, opts *restutils.Options) (*echo.Echo, error) {
+func New(cfg *config.EchoConfig, opts *restutils.Options) (error, *echo.Echo) {
     e := echo.New()
     baseapi := e.Group(baseURI)
 
@@ -31,5 +31,5 @@ func New(cfg *config.EchoConfig, opts *restutils.Options) (*echo.Echo, error) {
         }
     }()
 
-    return e, nil
+    return nil, e
 }
