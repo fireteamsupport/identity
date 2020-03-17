@@ -40,5 +40,11 @@ type (
 )
 
 type (
+    ReqLogout struct {
+        Token string `json:"token" validate:"required"`
+    }
+)
+
+type (
     Empty struct {}
 )

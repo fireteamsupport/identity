@@ -28,6 +28,9 @@ type (
         GetRefreshToken(string) (error, *RefreshToken)
         GetRefreshTokens(int64) (error, []*RefreshToken)
 
+        NewPasswordReset(int64) *PasswordReset
+        GetPasswordReset(string) (error, *PasswordReset)
+
         Save(interface{}) *gorm.DB
         Close() error
     }

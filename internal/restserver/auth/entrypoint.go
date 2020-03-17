@@ -21,7 +21,7 @@ func New(g *echo.Group, opts *restutils.Options) error {
     a := &auth{opts}
 
     g.POST("/login", a.Login)
-    //g.POST("/logout", a.Logout)
+    g.POST("/logout", a.Logout)
     g.POST("/register", a.Register)
     g.POST("/refresh", a.RefreshToken)
     //g.POST("/passwordrest", a.PasswordReset)

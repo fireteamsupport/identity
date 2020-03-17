@@ -24,7 +24,15 @@ type (
         IP        string
         ExpiresAt *time.Time
     }
+
+    PasswordReset struct {
+        gorm.Model
+        Token     string `gorm:"primary_key;auto_increment:false"`
+        UID       int64
+        ExpiresAt *time.Time
+    }
 )
+
 
 //func (u *User) TableName() string {
 //    return "profiles"
@@ -51,7 +59,6 @@ func (rf *RefreshToken) TableName() string {
 }
 
 func (rf *RefreshToken) BeforeCreate(scope *gorm.Scope) error {
-    scope.SetColumn("ExpiresAt", time.Now().Add(336 * time.Hour).Unix())
 
     token := genToken()
 
@@ -62,5 +69,13 @@ func (rf *RefreshToken) BeforeCreate(scope *gorm.Scope) error {
     scope.SetColumn("CreatedAt", time.Now().UTC())
     scope.SetColumn("ExpiresAt", time.Now().UTC().Add(336 * time.Hour))
 
+    return nil
+}
+
+
+func (pr *PasswordReset) BeforeCreate(scope *gorm.Scope) error {
+    scope.SetColumn("ExpiresAt", time.Now().Add(time.Hour).UTC().Add(time.Hour))
+    token := genToken()
+    scope.SetColumn("Token", token)
     return nil
 }
