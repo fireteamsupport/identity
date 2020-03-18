@@ -5,6 +5,7 @@ import (
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/rtmanager"
     "github.com/fireteamsupport/identity/internal/jwtmanager"
+    "github.com/fireteamsupport/identity/internal/email"
 )
 
 type Options struct {
@@ -13,6 +14,7 @@ type Options struct {
     JWTMgmt jwtmanager.JWTManager
     RTMgmt  rtmanager.RTManager
     DB  database.Client
+    Email email.Email
 }
 
 func (opts *Options) GetAddr() string {

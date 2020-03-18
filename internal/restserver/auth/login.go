@@ -1,4 +1,4 @@
-package authserver
+package authroutes
 
 import (
     "net/http"
@@ -27,6 +27,12 @@ func (a *auth) Login(c echo.Context) error {
 
     if dbuser.Password != payload.Password {
         return c.String(401, "Invalid email and/or password")
+    }
+
+    if !dbuser.Verified {
+        return c.JSON(403, map[string]string{
+            "message": "Account is not verified",
+        })
     }
 
     user := &jwtmanager.User{

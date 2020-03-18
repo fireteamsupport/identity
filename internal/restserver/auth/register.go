@@ -1,11 +1,15 @@
-package authserver
+package authroutes
 
 import (
+    "fmt"
     "net/http"
     "github.com/labstack/echo/v4"
     "github.com/fireteamsupport/identity/internal/structs"
-    "github.com/fireteamsupport/identity/internal/jwtmanager"
 )
+
+func verifyEmailBody(code string) string {
+    return "http://10.50.1.15:5000/api/v1/auth/verify?=" + code
+}
 
 func (a *auth) Register(c echo.Context) error {
     u := new(structs.ReqRegister)
@@ -27,27 +31,13 @@ func (a *auth) Register(c echo.Context) error {
         })
     }
 
-    user := &jwtmanager.User{
-        UID: dbuser.UID,
-        Email: dbuser.Email,
-        Username: dbuser.Username,
-    }
+    verify := a.DB.NewAccountVerification(dbuser.UID)
+    subject := fmt.Sprintf("Here's your verification email %s", dbuser.Username)
 
-    token, err := a.JWTMgmt.Sign(user)
-    if err != nil {
-        log.Error(err)
-        return c.String(http.StatusInternalServerError, "Error creating user token")
-    }
-
-    err, refreshtoken := a.RTMgmt.Create(user.UID, "4.2.4.2")
-    if err != nil {
-        log.Error(err)
-        return c.String(http.StatusInternalServerError, "Error creating refresh token")
-    }
+    a.Email.Send(u.Email, subject, verifyEmailBody(verify.Token))
 
     return c.JSON(http.StatusOK, &structs.RespRegister{
-        AccessToken: token,
-        RefreshToken: refreshtoken,
-        TokenType: "Bearer",
+        Username: dbuser.Username,
+        Email: dbuser.Email,
     })
 }

@@ -15,6 +15,7 @@ type (
         Password  string
         Role      int
         Banned    bool
+        Verified  bool
     }
 
     RefreshToken struct {
@@ -29,6 +30,13 @@ type (
         gorm.Model
         Token     string `gorm:"primary_key;auto_increment:false"`
         UID       int64
+        ExpiresAt *time.Time
+    }
+
+    AccountVerification struct {
+        gorm.Model
+        Token string `gorm:"primary_key;auto_increment:false"`
+        UID   int64
         ExpiresAt *time.Time
     }
 )
@@ -49,6 +57,7 @@ func (u *User) BeforeCreate(scope *gorm.Scope) error {
     scope.SetColumn("UID", snowflake.Int64())
     scope.SetColumn("CreatedAt", time.Now().UTC())
     scope.SetColumn("UpdatedAt", time.Now().UTC())
+    scope.SetColumn("Verified", false)
 
     return nil
 }
@@ -74,6 +83,13 @@ func (rf *RefreshToken) BeforeCreate(scope *gorm.Scope) error {
 
 
 func (pr *PasswordReset) BeforeCreate(scope *gorm.Scope) error {
+    scope.SetColumn("ExpiresAt", time.Now().Add(time.Hour).UTC().Add(time.Hour))
+    token := genToken()
+    scope.SetColumn("Token", token)
+    return nil
+}
+
+func (table *AccountVerification) BeforeCreate(scope *gorm.Scope) error {
     scope.SetColumn("ExpiresAt", time.Now().Add(time.Hour).UTC().Add(time.Hour))
     token := genToken()
     scope.SetColumn("Token", token)

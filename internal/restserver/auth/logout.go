@@ -1,4 +1,4 @@
-package authserver
+package authroutes
 
 import (
     "net/http"

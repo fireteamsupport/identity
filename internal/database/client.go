@@ -31,6 +31,9 @@ type (
         NewPasswordReset(int64) *PasswordReset
         GetPasswordReset(string) (error, *PasswordReset)
 
+        NewAccountVerification(int64) *AccountVerification
+        GetAccountVerification(string) (error, *AccountVerification)
+
         Save(interface{}) *gorm.DB
         Close() error
     }
@@ -45,6 +48,8 @@ func connect(username, password, host, dbname string) (*gorm.DB, error) {
 func (c *client) Init() error {
     c.AutoMigrate(&User{})
     c.AutoMigrate(&RefreshToken{})
+    c.AutoMigrate(&AccountVerification{})
+    c.AutoMigrate(&PasswordReset{})
     return nil
 }
 

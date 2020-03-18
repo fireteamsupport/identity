@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/arturoguerra/go-logging v0.0.0-20200217210650-0d44702b7d73
+	github.com/aws/aws-sdk-go v1.29.26
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/caarlos0/env/v6 v6.2.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible

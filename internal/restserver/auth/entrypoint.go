@@ -1,4 +1,4 @@
-package authserver
+package authroutes
 
 import (
     "github.com/labstack/echo/v4"
@@ -23,8 +23,9 @@ func New(g *echo.Group, opts *restutils.Options) error {
     g.POST("/login", a.Login)
     g.POST("/logout", a.Logout)
     g.POST("/register", a.Register)
+    g.GET("/verify", a.Verify)
     g.POST("/refresh", a.RefreshToken)
-    //g.POST("/passwordrest", a.PasswordReset)
-    //g.POST("/recover", a.Recover)
+//    g.POST("/passwordrest", a.PasswordReset)
+//    g.POST("/recoveraccount", a.RecoverAccount)
     return nil
 }

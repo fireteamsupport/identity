@@ -7,6 +7,7 @@ import (
     "syscall"
     "context"
     "github.com/arturoguerra/go-logging"
+    "github.com/fireteamsupport/identity/internal/email"
     "github.com/fireteamsupport/identity/internal/config"
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/rtmanager"
@@ -24,9 +25,11 @@ func main() {
 
     dbcfg := config.DBLoad()
     err, dbClient := database.New(dbcfg)
+    log.Info("Starting database..")
     if err != nil {
         log.Fatal(err)
     }
+
 
     err, jwtCfg := jwtmanager.NewEnvCfg()
     if err != nil {
@@ -34,19 +37,31 @@ func main() {
     }
 
     err, jwtManager := jwtmanager.New(jwtCfg)
+    log.Info("Starting JWTMananger..")
     if err != nil {
         log.Fatal(err)
     }
 
     err, rtManager := rtmanager.New(dbClient)
+    log.Info("Starting Refresh Token Manager...")
     if err != nil {
         log.Fatal(err)
     }
+
+    err, emailcfg := config.EmailLoad()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    emailClient := email.New(emailcfg)
+    log.Info("Starting SES Email...")
+
 
     restOpts := &restutils.Options{
         DB: dbClient,
         JWTMgmt: jwtManager,
         RTMgmt: rtManager,
+        Email: emailClient,
     }
 
     echocfg := config.EchoLoad()
