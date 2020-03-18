@@ -36,6 +36,7 @@ type (
 
         Save(interface{}) *gorm.DB
         Close() error
+        Delete(interface{}, ...interface{}) *gorm.DB
     }
 )
 

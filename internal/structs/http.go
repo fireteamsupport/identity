@@ -51,5 +51,18 @@ type (
 )
 
 type (
+    ReqPasswordReset struct {
+        Email string `json:"email" validate:"required"`
+    }
+)
+
+type (
+    ReqRecoverAccount struct {
+        Code string `json:"code" validate:"required"`
+        Password string `json:"password" validate:"required"`
+    }
+)
+
+type (
     Empty struct {}
 )

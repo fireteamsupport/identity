@@ -26,7 +26,7 @@ func New(g *echo.Group, opts *restutils.Options) error {
     g.GET("/verify", a.Verify)
     g.POST("/refresh", a.RefreshToken)
     g.POST("/reverify", a.Reverify)
-//    g.POST("/passwordrest", a.PasswordReset)
-//    g.POST("/recoveraccount", a.RecoverAccount)
+    g.POST("/passwordrest", a.PasswordReset)
+    g.POST("/recoveraccount", a.RecoverAccount)
     return nil
 }

@@ -25,6 +25,11 @@ func New(cfg *config.EchoConfig, opts *restutils.Options) (error, *echo.Echo) {
     authgrp := baseapi.Group("/auth")
     auth.New(authgrp, opts)
 
+
+    e.GET("/healthz", func(c echo.Context) error {
+        return c.String(200, "Everything is okay thx :)")
+    })
+
     go func() {
         if err := e.Start(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)); err != nil {
             e.Logger.Info(err.Error())
