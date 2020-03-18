@@ -45,5 +45,11 @@ type (
 )
 
 type (
+    ReqReverify struct {
+        Email string `json:"email" validate:"required"`
+    }
+)
+
+type (
     Empty struct {}
 )

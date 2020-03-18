@@ -34,7 +34,7 @@ func (a *auth) Register(c echo.Context) error {
     verify := a.DB.NewAccountVerification(dbuser.UID)
     subject := fmt.Sprintf("Here's your verification email %s", dbuser.Username)
 
-    a.Email.Send(u.Email, subject, verifyEmailBody(verify.Token))
+    a.SendVerificationEmail(dbuser.Email, subject, verify.Token)
 
     return c.JSON(http.StatusOK, &structs.RespRegister{
         Username: dbuser.Username,
