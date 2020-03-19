@@ -71,6 +71,13 @@ type (
     }
 )
 
+type User struct {
+    UID      int64   `json:"uid"`
+    Username string  `json:"username"`
+    Email    string  `json:"email"`
+    Role     int     `json:"role"`
+}
+
 type (
     Empty struct {}
 
