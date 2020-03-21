@@ -4,7 +4,6 @@ import (
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
-    "github.com/fireteamsupport/identity/internal/restserver/middleware"
     "github.com/fireteamsupport/identity/internal/utils"
 
 )
@@ -21,10 +20,8 @@ type auth struct {
 func New(g *echo.Group, opts *restutils.Options) error {
     a := &auth{opts}
 
-    m := middleware.New(opts.JWTMgmt)
-
     g.POST("/login", a.Login)
-    g.POST("/logout", a.Logout, m.AuthN)
+    g.POST("/logout", a.Logout)
     g.POST("/register", a.Register)
     g.GET("/verify", a.Verify)
     g.POST("/refresh", a.RefreshToken)

@@ -19,6 +19,7 @@ func (m *Middleware) AuthN(next echo.HandlerFunc) echo.HandlerFunc {
 
         err, claims := m.JWTMgmt.Decrypt(token)
         if err != nil {
+            log.Error(err)
             return c.JSON(403, map[string]string{
                 "message": "Invalid token",
             })
@@ -29,6 +30,7 @@ func (m *Middleware) AuthN(next echo.HandlerFunc) echo.HandlerFunc {
             Username: claims.Username,
             Email: claims.Email,
             Role: claims.Role,
+            Banned: claims.Banned,
         }
 
         c.Set("user", user)

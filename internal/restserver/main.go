@@ -7,7 +7,9 @@ import (
     "github.com/fireteamsupport/identity/internal/config"
 
     auth  "github.com/fireteamsupport/identity/internal/restserver/auth"
+    users  "github.com/fireteamsupport/identity/internal/restserver/users"
     restutils  "github.com/fireteamsupport/identity/internal/restserver/utils"
+    middleware "github.com/fireteamsupport/identity/internal/restserver/middleware"
 )
 
 const (
@@ -22,8 +24,13 @@ func New(cfg *config.EchoConfig, opts *restutils.Options) (error, *echo.Echo) {
     e := echo.New()
     baseapi := e.Group(baseURI)
 
+    m := middleware.New(opts.JWTMgmt)
+
     authgrp := baseapi.Group("/auth")
     auth.New(authgrp, opts)
+
+    ugrp := baseapi.Group("/users", m.AuthN)
+    users.New(ugrp, opts)
 
 
     e.GET("/healthz", func(c echo.Context) error {

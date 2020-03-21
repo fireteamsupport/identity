@@ -1,17 +1,21 @@
 package jwtmanager
 
 import (
+    "github.com/arturoguerra/go-logging"
     "github.com/dgrijalva/jwt-go"
     "crypto/rsa"
     "io/ioutil"
 )
 
+var log = logging.New()
+
 type (
     User struct {
-        UID      int64
-        Username string
-        Email    string
-        Role     int
+        UID      int64  `json:"uid"`
+        Username string `json:"username"`
+        Email    string `json:"email"`
+        Role     int    `json:"role"`
+        Banned   bool   `json:"banned"`
     }
 
     Claims struct {

@@ -76,10 +76,16 @@ type User struct {
     Username string  `json:"username"`
     Email    string  `json:"email"`
     Role     int     `json:"role"`
+    Banned   bool    `json:"banned"`
 }
 
 type (
     Empty struct {}
+
+    Message struct {
+        Code    int    `json:"code"`
+        Message string `json:"message"`
+    }
 
     HttpError struct {
         Code int `json:"code"`
