@@ -15,7 +15,6 @@ func New(g *echo.Group, opts *restutils.Options) error {
 
     m := middleware.New(opts.JWTMgmt)
 
-
     me := g.Group("/me", m.AuthZDefault)
     me.GET("", u.GetME)
     me.PATCH("", u.PatchME)
