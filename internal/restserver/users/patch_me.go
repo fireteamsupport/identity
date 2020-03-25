@@ -1,6 +1,7 @@
 package userroutes
 
 import (
+    "net/http"
     "github.com/labstack/echo/v4"
     "github.com/fireteamsupport/identity/internal/restserver/structs"
 )
@@ -53,6 +54,12 @@ func (u *user) PatchME(c echo.Context) error {
     }
 
     if payload.Email != "" {
+        if err, _ := u.DB.UserLogin(payload.Email); err == nil {
+            return c.JSON(http.StatusUnauthorized, &structs.Message{
+                Message: "Email already registered",
+            })
+        }
+
         dbuser.Email = payload.Email
         dbuser.Verified = false
     }
