@@ -25,7 +25,7 @@ func (a *auth) Login(c echo.Context) error {
         return c.String(http.StatusBadRequest, "Invalid payload")
     }
 
-    if err := v.Struct(payload); err != nil {
+    if err := a.Validate.Struct(payload); err != nil {
         log.Error(err)
         return c.String(http.StatusBadRequest, "Error validating")
     }
@@ -59,7 +59,7 @@ func (a *auth) Login(c echo.Context) error {
         return c.String(http.StatusInternalServerError, "Error creating user token try again later")
     }
 
-    err, refreshtoken := a.RTMgmt.Create(user.UID, "423.42.3.4")
+    err, refreshtoken := a.RTMgmt.Create(user.UID, c.RealIP())
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating refresh token")

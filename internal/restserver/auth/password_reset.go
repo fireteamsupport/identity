@@ -29,7 +29,7 @@ func (a *auth) PasswordReset(c echo.Context) error {
         return c.String(400, "Invalid payload")
     }
 
-    if err := v.Struct(payload); err != nil {
+    if err := a.Validate.Struct(payload); err != nil {
         log.Error(err)
         return c.String(400, "Invaliad payload")
     }

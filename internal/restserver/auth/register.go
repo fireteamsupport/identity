@@ -18,7 +18,7 @@ func (a *auth) Register(c echo.Context) error {
         return c.String(500, "LOL")
     }
 
-    if err := v.Struct(u); err != nil {
+    if err := a.Validate.Struct(u); err != nil {
         log.Error(err)
         return c.String(400, "Unable to parse your input")
     }

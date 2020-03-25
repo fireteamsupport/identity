@@ -3,23 +3,15 @@ package authroutes
 import (
     "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/fireteamsupport/identity/internal/structs"
+    "github.com/fireteamsupport/identity/internal/utils"
     "github.com/labstack/echo/v4"
     "net/http"
 )
 
 func (a *auth) RefreshToken(c echo.Context) error {
-    u := new(structs.ReqRefresh)
-    if err := c.Bind(u); err != nil {
-        log.Error(err)
-        return c.String(http.StatusInternalServerError, "Invalid payload")
-    }
+    err, header := utils.BearerExtractor(c)
 
-    if err := v.Struct(u); err != nil {
-        log.Error(err)
-        return c.String(400, "Invalid payload")
-    }
-
-    err, token := a.RTMgmt.Get(u.Token)
+    err, token := a.RTMgmt.Get(header)
     if err != nil {
         log.Error(err)
         return c.String(404, "Invalid refresh token")
@@ -49,7 +41,7 @@ func (a *auth) RefreshToken(c echo.Context) error {
         return c.String(http.StatusInternalServerError, "Error creating user token try again later")
     }
 
-    err, rtoken := a.RTMgmt.Create(user.UID, "5.534.55.5")
+    err, rtoken := a.RTMgmt.Create(user.UID, c.RealIP())
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating refresh token")

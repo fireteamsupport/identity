@@ -4,13 +4,11 @@ import (
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
-    "github.com/fireteamsupport/identity/internal/utils"
 
 )
 
 var (
     log = logging.New()
-    v = utils.Validator()
 )
 
 type auth struct {

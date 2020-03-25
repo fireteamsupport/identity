@@ -2,14 +2,14 @@ package middleware
 
 import (
     "github.com/fireteamsupport/identity/internal/restserver/structs"
+    "github.com/fireteamsupport/identity/internal/utils"
     "github.com/labstack/echo/v4"
     "net/http"
 )
 
 func (m *Middleware) AuthN(next echo.HandlerFunc) echo.HandlerFunc {
-    e := valueFromHeader("Authorization", "Bearer")
     return func(c echo.Context) error {
-        err, token := e(c)
+        err, token := utils.BearerExtractor(c)
         if err != nil {
             log.Error(err)
             return c.JSON(http.StatusUnauthorized, map[string]string{
