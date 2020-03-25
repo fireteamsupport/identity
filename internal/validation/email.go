@@ -5,6 +5,7 @@ import (
     "net/http"
     "io/ioutil"
     "encoding/json"
+    "github.com/go-playground/validator/v10"
 )
 
 type emailValidationResponse struct {
@@ -19,15 +20,15 @@ type emailValidationResponse struct {
     MXIP       string `json:"mx_ip"`
 }
 
-func emailValidation(v *validation) returnFunc {
+func emailValidation(v *validate) validator.Func {
     baseURL := "https://mailcheck.p.rapidapi.com?domain=%s"
-    return func(fl validation.FieldLevel) bool {
+    return func(fl validator.FieldLevel) bool {
         url := fmt.Sprintf(baseURL, fl.Field().String())
 
         req, _ := http.NewRequest("GET", url, nil)
 
         req.Header.Add("x-rapidapi-host", "mailcheck.p.rapidapi.com")
-        req.Header.Add("x-rapidapi-key", v.Config.EmailApiKey)
+        req.Header.Add("x-rapidapi-key", v.Config.EmailAPIKey)
 
         res, _ := http.DefaultClient.Do(req)
 

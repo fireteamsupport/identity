@@ -5,6 +5,15 @@ import (
     "github.com/fireteamsupport/identity/internal/restserver/structs"
 )
 
+type (
+    req_PatchME struct {
+        Username    string `json:"username" validate:"required"`
+        Email       string `json:"email"    validate:"required,email"`
+        Password    string `json:"password" validate:"required"`
+        NewPassword string `json:"new_password"`
+    }
+)
+
 func (u *user) PatchME(c echo.Context) error {
     user := c.Get("user").(*structs.User)
 
@@ -14,13 +23,13 @@ func (u *user) PatchME(c echo.Context) error {
         return err
     }
 
-    payload := new(structs.ReqUsersPatchME)
+    payload := new(req_PatchME)
     if err := c.Bind(payload); err != nil {
         log.Error(err)
         return err
     }
 
-    if err := v.Struct(payload); err != nil {
+    if err := u.Validate.Struct(payload); err != nil {
         log.Error(err)
         return c.JSON(400, &structs.Message{
             Code: 400,
@@ -28,7 +37,7 @@ func (u *user) PatchME(c echo.Context) error {
         })
     }
 
-    if payload.OldPassword != dbuser.Password {
+    if payload.Password != dbuser.Password {
         return c.JSON(403, &structs.Message{
             Code: 403,
             Message: "invalid password",

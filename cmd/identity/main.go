@@ -12,6 +12,7 @@ import (
     "github.com/fireteamsupport/identity/internal/rtmanager"
     "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/fireteamsupport/identity/internal/restserver"
+    "github.com/fireteamsupport/identity/internal/validation"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
 )
 
@@ -22,18 +23,24 @@ var (
 func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
 
-    err, dbClient := database.NewDefaultConfig()
+    err, dbClient := database.NewDefault()
     log.Info("Starting database..")
     if err != nil {
         log.Fatal(err)
     }
 
-    err, emailClient := email.NewDefaultConfig()
+    err, emailClient := email.NewDefault()
     if err != nil {
         log.Fatal(err)
     }
 
-    err, jwtManager := jwtmanager.NewDefaultConfig()
+    err, validate := validation.NewDefault()
+    log.Info("Starting Struct Validator...")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    err, jwtManager := jwtmanager.NewDefault()
     log.Info("Starting JWTMananger..")
     if err != nil {
         log.Fatal(err)
@@ -50,10 +57,10 @@ func main() {
         JWTMgmt: jwtManager,
         RTMgmt: rtManager,
         Email: emailClient,
+        Validate: validate,
     }
 
-    echocfg := config.EchoLoad()
-    err, restClient := restserver.New(echocfg, restOpts)
+    err, restClient := restserver.NewDefault(restOpts)
     if err != nil {
         log.Fatal(err)
     }

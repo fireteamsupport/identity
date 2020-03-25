@@ -15,10 +15,11 @@ func (u *user) GetME(c echo.Context) error {
         return err
     }
 
-    return c.JSON(http.StatusOK, &structs.RespUserGetME{
+    return c.JSON(http.StatusOK, &resp_User{
         UID: dbuser.UID,
         Username: dbuser.Username,
         Email: dbuser.Email,
+        Banned: dbuser.Banned,
         Verified: dbuser.Verified,
         Role: dbuser.Role,
     })

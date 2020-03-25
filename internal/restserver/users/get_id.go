@@ -7,6 +7,7 @@ import (
     "github.com/fireteamsupport/identity/internal/restserver/structs"
 )
 
+
 func (u *user) GetId(c echo.Context) error {
     id := c.Param("id")
     uid, err := strconv.ParseInt(id, 10, 64)
@@ -24,9 +25,10 @@ func (u *user) GetId(c echo.Context) error {
         })
     }
 
-    return c.JSON(http.StatusOK, &structs.RespUserGetId{
+    return c.JSON(http.StatusOK, &resp_User{
         UID: dbuser.UID,
         Username: dbuser.Username,
+        Email: dbuser.Email,
         Role: dbuser.Role,
         Banned: dbuser.Banned,
         Verified: dbuser.Verified,

@@ -35,7 +35,7 @@ type (
     }
 )
 
-func NewDefaultConfig() (error, JWTManager) {
+func NewDefault() (error, JWTManager) {
     err, cfg := NewEnvConfig()
     if err != nil {
         return err, nil

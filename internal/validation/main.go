@@ -1,30 +1,35 @@
 package validation
 
 import (
+    "github.com/go-playground/validator/v10"
+    "github.com/arturoguerra/go-logging"
 )
 
-var (
-    log = logging.New()
-)
+var log = logging.New()
 
 type (
-    Config struct {
-        APIKey string `json:"email-api-key" env:"EMAIL_API_KEY"`
-    }
-
-    validation struct {
+    validate struct {
         *validator.Validate
-        Config *config.Validation
+        Config *Config
     }
 
-    Validation struct {
+    Validate interface {
         Struct(interface{}) error
-
     }
 )
 
-func New(cfg *Config) (error, Validation) {
-    v := &validation{
+func NewDefault() (error, Validate) {
+    err, cfg := NewEnvConfig()
+    if err != nil {
+        return err, nil
+    }
+
+    err, v := New(cfg)
+    return err, v
+}
+
+func New(cfg *Config) (error, Validate) {
+    v := &validate{
         Validate: validator.New(),
         Config: cfg,
     }

@@ -4,11 +4,23 @@ import (
     "net/http"
     "github.com/labstack/echo/v4"
     "github.com/fireteamsupport/identity/internal/jwtmanager"
-    "github.com/fireteamsupport/identity/internal/structs"
+)
+
+type (
+    req_Login struct {
+        Email    string `json:"email"`
+        Password string `json:"password"`
+    }
+
+    resp_Login struct {
+        AccessToken  string `json:"access_token"`
+        RefreshToken string `json:"refresh_token"`
+        TokenType    string `json:"token_type"`
+    }
 )
 
 func (a *auth) Login(c echo.Context) error {
-    payload := new(structs.ReqLogin)
+    payload := new(req_Login)
     if err := c.Bind(payload); err != nil {
         return c.String(http.StatusBadRequest, "Invalid payload")
     }
@@ -53,7 +65,7 @@ func (a *auth) Login(c echo.Context) error {
         return c.String(http.StatusInternalServerError, "Error creating refresh token")
     }
 
-    return c.JSON(http.StatusOK, &structs.RespLogin{
+    return c.JSON(http.StatusOK, &resp_Login{
         AccessToken: token,
         RefreshToken: refreshtoken,
         TokenType: "Bearer",

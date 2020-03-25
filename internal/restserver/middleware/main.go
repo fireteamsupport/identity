@@ -2,6 +2,7 @@ package middleware
 
 import (
     "fmt"
+    "strings"
     "github.com/labstack/echo/v4"
     "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/arturoguerra/go-logging"
@@ -26,7 +27,7 @@ func valueFromHeader(header, schema string) Extractor {
         value := c.Request().Header.Get(header)
         l := len(schema)
         if len(value) >= l+1 && value[:l] == schema {
-            return nil, value[l:]
+            return nil, strings.TrimSpace(value[l+1:])
         }
 
         return fmt.Errorf("%s header not found", schema), ""

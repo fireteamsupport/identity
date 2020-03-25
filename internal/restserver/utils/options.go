@@ -6,11 +6,13 @@ import (
     "github.com/fireteamsupport/identity/internal/rtmanager"
     "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/fireteamsupport/identity/internal/email"
+    "github.com/fireteamsupport/identity/internal/validation"
 )
 
 type Options struct {
     Host string
     Port string
+    Validate validation.Validate
     JWTMgmt jwtmanager.JWTManager
     RTMgmt  rtmanager.RTManager
     DB  database.Client

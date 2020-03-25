@@ -13,5 +13,5 @@ func NewEnvConfig() (error, *Config) {
         return err, nil
     }
 
-    return c, nil
+    return nil, c
 }

@@ -68,7 +68,7 @@ func New(cfg *Config) (error, Client) {
     return err, c
 }
 
-func NewDefaultConfig() (error, Client) {
+func NewDefault() (error, Client) {
     err, cfg := NewEnvConfig()
     if err != nil {
         return err, nil

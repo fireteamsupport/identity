@@ -7,6 +7,10 @@ import (
     "net/http"
 )
 
+type req_PatchId struct {
+    Role int `json:"role"`
+}
+
 func (u *user) PatchId(c echo.Context) error {
     id := c.Param("id")
 
@@ -14,7 +18,6 @@ func (u *user) PatchId(c echo.Context) error {
     if err != nil {
         log.Error(err)
         return c.JSON(http.StatusNotFound, &structs.Message{
-            Code: http.StatusNotFound,
             Message: err.Error(),
         })
     }
@@ -23,19 +26,17 @@ func (u *user) PatchId(c echo.Context) error {
     if err != nil {
         log.Error(err)
         return c.JSON(http.StatusNotFound, &structs.Message{
-            Code: http.StatusNotFound,
             Message: "user not found",
         })
     }
 
-    payload := new(structs.UsersReqPatchId)
+    payload := new(req_PatchId)
     if err := c.Bind(payload); err != nil {
         return err
     }
 
-    if err := v.Struct(payload); err != nil {
+    if err := u.Validate.Struct(payload); err != nil {
         return c.JSON(http.StatusBadRequest, &structs.Message{
-            Code: http.StatusBadRequest,
             Message: err.Error(),
         })
     }
@@ -45,7 +46,6 @@ func (u *user) PatchId(c echo.Context) error {
     u.DB.Save(dbuser)
 
     return c.JSON(http.StatusOK, &structs.Message{
-        Code: http.StatusOK,
         Message: "Updated user",
     })
 }

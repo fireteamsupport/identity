@@ -25,7 +25,7 @@ type (
     }
 )
 
-func NewDefaultConfig() (error, Email) {
+func NewDefault() (error, Email) {
     err, cfg := NewEnvConfig()
     if err != nil {
         return err, nil

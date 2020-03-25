@@ -19,7 +19,7 @@ var (
     log = logging.New()
 )
 
-func NewDefaultConfig(opts *restutils.Options) (error, *echo.Echo) {
+func NewDefault(opts *restutils.Options) (error, *echo.Echo) {
     err, cfg := NewEnvConfig()
     if err != nil {
         return err, nil
