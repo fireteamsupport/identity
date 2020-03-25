@@ -4,7 +4,6 @@ import (
     "fmt"
     "github.com/jinzhu/gorm"
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/config"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
@@ -13,7 +12,7 @@ var log = logging.New()
 type (
     client struct {
         *gorm.DB
-        Config *config.DBConfig
+        Config *Config
 
     }
 
@@ -54,7 +53,7 @@ func (c *client) Init() error {
     return nil
 }
 
-func New(cfg *config.DBConfig) (error, Client) {
+func New(cfg *Config) (error, Client) {
     db, err := connect(cfg.User, cfg.Password, cfg.Host, cfg.Name)
     if err != nil {
         return err, nil
@@ -67,4 +66,14 @@ func New(cfg *config.DBConfig) (error, Client) {
     }
 
     return err, c
+}
+
+func NewDefaultConfig() (error, Client) {
+    err, cfg := NewEnvConfig()
+    if err != nil {
+        return err, nil
+    }
+
+    err, client := New(cfg)
+    return err, client
 }

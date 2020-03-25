@@ -35,6 +35,16 @@ type (
     }
 )
 
+func NewDefaultConfig() (error, JWTManager) {
+    err, cfg := NewEnvConfig()
+    if err != nil {
+        return err, nil
+    }
+
+    err, jwt := New(cfg)
+    return err, jwt
+}
+
 func New(cfg *Config) (error, JWTManager) {
     signBytes, err := ioutil.ReadFile(cfg.PrivKeyPath)
     if err != nil {

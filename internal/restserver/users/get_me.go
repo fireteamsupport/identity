@@ -2,6 +2,8 @@ package userroutes
 
 import (
     "github.com/labstack/echo/v4"
+    "github.com/fireteamsupport/identity/internal/restserver/structs"
+    "net/http"
 )
 
 func (u *user) GetME(c echo.Context) error {

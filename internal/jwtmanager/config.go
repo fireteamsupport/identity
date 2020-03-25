@@ -1,6 +1,6 @@
 package jwtmanager
 
-import "github.com/caarlos0/env/v6"
+import "github.com/fireteamsupport/identity/internal/utils"
 
 type (
     Config struct {
@@ -9,9 +9,9 @@ type (
     }
 )
 
-func NewEnvCfg() (error, *Config) {
+func NewEnvConfig() (error, *Config) {
     cfg := new(Config)
-    if err := env.Parse(cfg); err != nil {
+    if err := utils.EnvLoad(cfg); err != nil {
         return err, nil
     }
 

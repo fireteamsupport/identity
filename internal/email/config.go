@@ -1,23 +1,20 @@
-package config
+package email
 
-import (
-    "github.com/caarlos0/env/v6"
-)
+import "github.com/fireteamsupport/identity/internal/utils"
 
 
-type EmailConfig struct {
+type Config struct {
     Region          string `env:"AWS_REGION,required"`
     Sender          string `env:"EMAIL_SENDER,required"`
     AcessKeyID      string `env:"AWS_ACCESS_KEY_ID,required"`
     SecretAccessKey string `env:"AWS_SECRET_ACCESS_KEY,required"`
 }
 
-func EmailLoad() (error, *EmailConfig) {
-    cfg := new(EmailConfig)
-    if err := env.Parse(cfg); err != nil {
-        log.Error(err)
+func NewEnvConfig() (error, *Config) {
+    c := new(Config)
+    if err := utils.EnvLoad(c); err != nil {
         return err, nil
     }
 
-    return nil, cfg
+    return nil, c
 }

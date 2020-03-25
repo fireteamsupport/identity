@@ -4,7 +4,10 @@ import (
     "github.com/fireteamsupport/identity/internal/restserver/middleware"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
     "github.com/labstack/echo/v4"
+    "github.com/arturoguerra/go-logging"
 )
+
+var log = logging.New()
 
 type user struct {
     *restutils.Options

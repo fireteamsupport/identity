@@ -13,6 +13,7 @@ func verifyEmailBody(code string) string {
 
 func (a *auth) Register(c echo.Context) error {
     u := new(structs.ReqRegister)
+
     if err := c.Bind(u); err != nil {
         return c.String(500, "LOL")
     }

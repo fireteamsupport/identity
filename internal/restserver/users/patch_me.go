@@ -2,6 +2,7 @@ package userroutes
 
 import (
     "github.com/labstack/echo/v4"
+    "github.com/fireteamsupport/identity/internal/restserver/structs"
 )
 
 func (u *user) PatchME(c echo.Context) error {
@@ -34,6 +35,23 @@ func (u *user) PatchME(c echo.Context) error {
         })
     }
 
+    if payload.NewPassword != "" {
+        dbuser.Password = payload.NewPassword
+    }
 
-    return c.String(200, "")
+    if payload.Username != "" {
+        dbuser.Username = payload.Username
+    }
+
+    if payload.Email != "" {
+        dbuser.Email = payload.Email
+        dbuser.Verified = false
+    }
+
+    u.DB.Save(dbuser)
+
+    return c.JSON(200, &structs.Message{
+        Code: 200,
+        Message: "updated user",
+    })
 }

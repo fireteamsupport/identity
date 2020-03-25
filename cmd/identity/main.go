@@ -8,7 +8,6 @@ import (
     "context"
     "github.com/arturoguerra/go-logging"
     "github.com/fireteamsupport/identity/internal/email"
-    "github.com/fireteamsupport/identity/internal/config"
     "github.com/fireteamsupport/identity/internal/database"
     "github.com/fireteamsupport/identity/internal/rtmanager"
     "github.com/fireteamsupport/identity/internal/jwtmanager"
@@ -23,20 +22,18 @@ var (
 func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
 
-    dbcfg := config.DBLoad()
-    err, dbClient := database.New(dbcfg)
+    err, dbClient := database.NewDefaultConfig()
     log.Info("Starting database..")
     if err != nil {
         log.Fatal(err)
     }
 
-
-    err, jwtCfg := jwtmanager.NewEnvCfg()
+    err, emailClient := email.NewDefaultConfig()
     if err != nil {
         log.Fatal(err)
     }
 
-    err, jwtManager := jwtmanager.New(jwtCfg)
+    err, jwtManager := jwtmanager.NewDefaultConfig()
     log.Info("Starting JWTMananger..")
     if err != nil {
         log.Fatal(err)
@@ -47,15 +44,6 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-
-    err, emailcfg := config.EmailLoad()
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    emailClient := email.New(emailcfg)
-    log.Info("Starting SES Email...")
-
 
     restOpts := &restutils.Options{
         DB: dbClient,

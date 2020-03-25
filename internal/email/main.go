@@ -2,7 +2,6 @@ package email
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/config"
 
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
@@ -26,7 +25,17 @@ type (
     }
 )
 
-func New(cfg *config.EmailConfig) Email {
+func NewDefaultConfig() (error, Email) {
+    err, cfg := NewEnvConfig()
+    if err != nil {
+        return err, nil
+    }
+
+    err, instance := New(cfg)
+    return err, instance
+}
+
+func New(cfg *Config) (error, Email) {
     sess, err := session.NewSession(&aws.Config{
         Region: aws.String(cfg.Region),
     })
@@ -37,7 +46,7 @@ func New(cfg *config.EmailConfig) Email {
 
     svc := ses.New(sess)
 
-    return &email{
+    return nil, &email{
         Session: svc,
         Sender: cfg.Sender,
     }

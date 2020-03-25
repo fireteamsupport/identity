@@ -4,7 +4,6 @@ import (
     "fmt"
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/config"
 
     auth  "github.com/fireteamsupport/identity/internal/restserver/auth"
     users  "github.com/fireteamsupport/identity/internal/restserver/users"
@@ -20,7 +19,22 @@ var (
     log = logging.New()
 )
 
-func New(cfg *config.EchoConfig, opts *restutils.Options) (error, *echo.Echo) {
+func NewDefaultConfig(opts *restutils.Options) (error, *echo.Echo) {
+    err, cfg := NewEnvConfig()
+    if err != nil {
+        return err, nil
+    }
+
+    err, e := New(cfg, opts)
+    if err != nil {
+        return err, nil
+    }
+
+    return nil, e
+}
+
+
+func New(cfg *Config, opts *restutils.Options) (error, *echo.Echo) {
     e := echo.New()
     baseapi := e.Group(baseURI)
 

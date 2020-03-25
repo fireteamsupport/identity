@@ -3,7 +3,8 @@ package userroutes
 import (
     "strconv"
     "github.com/labstack/echo/v4"
-    "github.com/fireteamsupport/identity/internal/resetserver/structs"
+    "github.com/fireteamsupport/identity/internal/restserver/structs"
+    "net/http"
 )
 
 func (u *user) PatchId(c echo.Context) error {
