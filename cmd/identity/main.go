@@ -23,31 +23,32 @@ var (
 func main() {
     log.Info("Starting Account Management for Fireteamsupport...")
 
-    err, dbClient := database.NewDefault()
     log.Info("Starting database..")
+    err, dbClient := database.NewDefault()
     if err != nil {
         log.Fatal(err)
     }
 
+    log.Info("Starting Temp Email client, Will be moved to its own package and use nats later..")
     err, emailClient := email.NewDefault()
     if err != nil {
         log.Fatal(err)
     }
 
-    err, validate := validation.NewDefault()
     log.Info("Starting Struct Validator...")
+    err, validate := validation.NewDefault()
     if err != nil {
         log.Fatal(err)
     }
 
-    err, jwtManager := jwtmanager.NewDefault()
     log.Info("Starting JWTMananger..")
+    err, jwtManager := jwtmanager.NewDefault()
     if err != nil {
         log.Fatal(err)
     }
 
-    err, rtManager := rtmanager.New(dbClient)
     log.Info("Starting Refresh Token Manager...")
+    err, rtManager := rtmanager.New(dbClient)
     if err != nil {
         log.Fatal(err)
     }

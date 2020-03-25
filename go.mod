@@ -14,4 +14,5 @@ require (
 	github.com/nats-io/nats.go v1.9.1
 	github.com/onrik/logrus v0.5.1 // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
+	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
 )

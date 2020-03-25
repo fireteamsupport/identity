@@ -5,6 +5,7 @@ import (
     "github.com/jinzhu/gorm"
     "github.com/arturoguerra/go-logging"
     _ "github.com/jinzhu/gorm/dialects/mysql"
+    "github.com/fireteamsupport/identity/internal/models"
 )
 
 var log = logging.New()
@@ -17,21 +18,21 @@ type (
     }
 
     Client interface {
-        UserLogin(string) (error, *User)
-        GetUser(int64) (error, *User)
-        RegisterUser(string, string, string) (error, *User)
+        UserLogin(string) (error, *models.User)
+        GetUser(int64) (error, *models.User)
+        RegisterUser(string, string, string) (error, *models.User)
 
-        NewRefreshToken(int64, string) *RefreshToken
+        NewRefreshToken(int64, string) *models.RefreshToken
         ClearRefreshTokens(int64) error
         DeleteRefreshToken(string) error
-        GetRefreshToken(string) (error, *RefreshToken)
-        GetRefreshTokens(int64) (error, []*RefreshToken)
+        GetRefreshToken(string) (error, *models.RefreshToken)
+        GetRefreshTokens(int64) (error, []*models.RefreshToken)
 
-        NewPasswordReset(int64) *PasswordReset
-        GetPasswordReset(string) (error, *PasswordReset)
+        NewPasswordReset(int64) *models.PasswordReset
+        GetPasswordReset(string) (error, *models.PasswordReset)
 
-        NewAccountVerification(int64) *AccountVerification
-        GetAccountVerification(string) (error, *AccountVerification)
+        NewAccountVerification(int64) *models.AccountVerification
+        GetAccountVerification(string) (error, *models.AccountVerification)
 
         Save(interface{}) *gorm.DB
         Close() error
@@ -46,10 +47,10 @@ func connect(username, password, host, dbname string) (*gorm.DB, error) {
 }
 
 func (c *client) Init() error {
-    c.AutoMigrate(&User{})
-    c.AutoMigrate(&RefreshToken{})
-    c.AutoMigrate(&AccountVerification{})
-    c.AutoMigrate(&PasswordReset{})
+    c.AutoMigrate(&models.User{})
+    c.AutoMigrate(&models.RefreshToken{})
+    c.AutoMigrate(&models.AccountVerification{})
+    c.AutoMigrate(&models.PasswordReset{})
     return nil
 }
 

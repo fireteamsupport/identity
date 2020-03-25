@@ -1,9 +1,13 @@
 package database
 
-func (c *client) NewPasswordReset(uid int64) *PasswordReset {
+import (
+    "github.com/fireteamsupport/identity/internal/models"
+)
+
+func (c *client) NewPasswordReset(uid int64) *models.PasswordReset {
     log.Infof("Creating new password reset for: %d", uid)
 
-    ps := &PasswordReset{
+    ps := &models.PasswordReset{
         UID: uid,
     }
 

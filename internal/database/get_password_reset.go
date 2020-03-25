@@ -3,10 +3,11 @@ package database
 import (
     "time"
     "github.com/fireteamsupport/identity/internal/errors"
+    "github.com/fireteamsupport/identity/internal/models"
 )
 
-func (c *client) GetPasswordReset(token string) (error, *PasswordReset) {
-    pr := PasswordReset{}
+func (c *client) GetPasswordReset(token string) (error, *models.PasswordReset) {
+    pr := models.PasswordReset{}
     log.Infof("Getting Password Reset: %s", token)
     if c.Where("Token = ?", token).First(&pr).RecordNotFound() {
         return errors.New(errors.NotFound, token), nil

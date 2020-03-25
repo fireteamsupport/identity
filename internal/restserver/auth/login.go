@@ -36,8 +36,7 @@ func (a *auth) Login(c echo.Context) error {
         return c.String(http.StatusNotFound, "User not found")
     }
 
-
-    if dbuser.Password != payload.Password {
+    if !dbuser.ValidPassword(payload.Password) {
         return c.String(401, "Invalid email and/or password")
     }
 

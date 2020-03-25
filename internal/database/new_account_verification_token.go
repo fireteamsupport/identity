@@ -1,9 +1,13 @@
 package database
 
-func (c *client) NewAccountVerification(uid int64) *AccountVerification {
+import (
+    "github.com/fireteamsupport/identity/internal/models"
+)
+
+func (c *client) NewAccountVerification(uid int64) *models.AccountVerification {
     log.Infof("Creating new account verification token for: %d", uid)
 
-    av := &AccountVerification{
+    av := &models.AccountVerification{
         UID: uid,
     }
 
