@@ -18,7 +18,7 @@ type (
 func (u *user) PatchME(c echo.Context) error {
     user := c.Get("user").(*structs.User)
 
-    err, dbuser := u.DB.GetUser(user.UID)
+    err, dbuser := u.Store.User.GetId(user.UID)
     if err != nil {
         log.Error(err)
         return err
@@ -54,7 +54,7 @@ func (u *user) PatchME(c echo.Context) error {
     }
 
     if payload.Email != "" {
-        if err, _ := u.DB.UserLogin(payload.Email); err == nil {
+        if err, _ := u.Store.User.GetEmail(payload.Email); err == nil {
             return c.JSON(http.StatusUnauthorized, &structs.Message{
                 Message: "Email already registered",
             })
@@ -64,7 +64,7 @@ func (u *user) PatchME(c echo.Context) error {
         dbuser.Verified = false
     }
 
-    u.DB.Save(dbuser)
+    u.Store.DB.Save(dbuser)
 
     return c.JSON(200, &structs.Message{
         Code: 200,

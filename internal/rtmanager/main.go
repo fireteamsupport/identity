@@ -37,6 +37,6 @@ type (
     }
 )
 
-func New(store store.RefreshTokenStore) (error, RTManager) {
-    return nil, &rtManager{store}
+func New(store store.RefreshTokenStore) (RTManager, error) {
+    return &rtManager{store}, nil
 }

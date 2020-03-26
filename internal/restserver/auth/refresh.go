@@ -11,19 +11,19 @@ import (
 func (a *auth) RefreshToken(c echo.Context) error {
     err, header := utils.BearerExtractor(c)
 
-    err, token := a.RTMgmt.Get(header)
+    err, token := a.RT.Get(header)
     if err != nil {
         log.Error(err)
         return c.String(404, "Invalid refresh token")
     }
 
-    err, dbuser := a.DB.GetUser(token.UID)
+    err, dbuser := a.Store.User.GetId(token.UID)
     if err != nil {
         log.Error(err)
         return c.String(404, "Missing user")
     }
 
-    err = a.RTMgmt.Delete(token.Token)
+    err = a.RT.Delete(token.Token)
     if err != nil {
         log.Error(err)
         return c.String(500, "Error deleting expired refresh token")
@@ -35,13 +35,13 @@ func (a *auth) RefreshToken(c echo.Context) error {
         Username: dbuser.Username,
     }
 
-    atoken, err := a.JWTMgmt.Sign(user)
+    atoken, err := a.JWT.Sign(user)
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating user token try again later")
     }
 
-    err, rtoken := a.RTMgmt.Create(user.UID, c.RealIP())
+    err, rtoken := a.RT.Create(user.UID, c.RealIP())
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating refresh token")

@@ -18,17 +18,17 @@ type (
     }
 )
 
-func NewDefault() (error, Validate) {
-    err, cfg := NewEnvConfig()
+func NewDefault() (Validate, error) {
+    cfg, err := NewEnvConfig()
     if err != nil {
-        return err, nil
+        return nil, err
     }
 
-    err, v := New(cfg)
-    return err, v
+    v, err := New(cfg)
+    return v, err
 }
 
-func New(cfg *Config) (error, Validate) {
+func New(cfg *Config) (Validate, error) {
     v := &validate{
         Validate: validator.New(),
         Config: cfg,
@@ -37,5 +37,5 @@ func New(cfg *Config) (error, Validate) {
     log.Info("Registering Email Validation")
     v.RegisterValidation("email", emailValidation(v))
 
-    return nil, v
+    return v, nil
 }

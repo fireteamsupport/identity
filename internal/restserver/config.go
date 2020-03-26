@@ -7,11 +7,11 @@ type Config struct {
     Port string `env:"PORT" envDefault:"5000"`
 }
 
-func NewEnvConfig() (error, *Config) {
+func NewEnvConfig() (*Config, error) {
     c := new(Config)
     if err := utils.EnvLoad(c); err != nil {
-        return err, nil
+        return nil, err
     }
 
-    return nil, c
+    return c, nil
 }

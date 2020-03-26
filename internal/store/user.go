@@ -17,7 +17,7 @@ type (
     UserStore interface {
         GetId(int64) (error, *models.User)
         GetEmail(string) (error, *models.User)
-        NewUser(string, string, string) (error, *models.User)
+        New(string, string, string) (error, *models.User)
         Save(interface{}) *gorm.DB
         Delete(interface{}, ...interface{}) *gorm.DB
     }
@@ -49,7 +49,7 @@ func (store *userStore) GetEmail(email string) (error, *models.User) {
 
 }
 
-func (store *userStore) NewUser(username, email, password string) (error, *models.User) {
+func (store *userStore) New(username, email, password string) (error, *models.User) {
     u := models.User{}
 
     if store.Where("email = ?", email).First(&u).RecordNotFound() {

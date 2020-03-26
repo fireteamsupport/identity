@@ -35,13 +35,13 @@ func (a *auth) PasswordReset(c echo.Context) error {
     }
 
     log.Info(payload)
-    err, user := a.DB.UserLogin(payload.Email)
+    err, user := a.Store.User.GetEmail(payload.Email)
     if err != nil {
         log.Error(err)
         return c.String(http.StatusOK, "may or may not exists we will never know")
     }
 
-    reset := a.DB.NewPasswordReset(user.UID)
+    reset := a.Store.PasswordReset.New(user.UID)
 
     a.PassResetEmail(user.Email, user.Username, reset.Token)
 

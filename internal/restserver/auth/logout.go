@@ -20,7 +20,7 @@ func (a *auth) Logout(c echo.Context) error {
     token := strings.TrimSpace(value[l+1:])
 
 
-    if err := a.RTMgmt.Delete(token); err != nil {
+    if err := a.RT.Delete(token); err != nil {
         log.Error(err)
         return c.String(403, "Invalid refresh token")
     }

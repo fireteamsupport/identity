@@ -9,7 +9,7 @@ import (
 func (u *user) GetME(c echo.Context) error {
     user := c.Get("user").(*structs.User)
 
-    err, dbuser := u.DB.GetUser(user.UID)
+    err, dbuser := u.Store.User.GetId(user.UID)
     if err != nil {
         log.Error(err)
         return err

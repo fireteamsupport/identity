@@ -18,7 +18,7 @@ func (a *auth) Reverify(c echo.Context) error {
     }
 
     log.Info(payload.Email)
-    err, user := a.DB.UserLogin(payload.Email)
+    err, user := a.Store.User.GetEmail(payload.Email)
     if err != nil {
         return c.String(404, "User not found")
     }
@@ -29,7 +29,7 @@ func (a *auth) Reverify(c echo.Context) error {
         })
     }
 
-    verify := a.DB.NewAccountVerification(user.UID)
+    verify := a.Store.AccountVerification.New(user.UID)
     subject := fmt.Sprintf("Here's your verification email %s", user.Username)
 
     a.SendVerificationEmail(user.Email, subject, verify.Token)

@@ -18,22 +18,22 @@ func (a *auth) RecoverAccount(c echo.Context) error {
         return c.String(400, "Invalid payload")
     }
 
-    err, entry := a.DB.GetPasswordReset(payload.Code)
+    err, entry := a.Store.PasswordReset.GetByToken(payload.Code)
     if err != nil {
         log.Error(err)
         return c.String(403, "Invalid code")
     }
 
-    err, user := a.DB.GetUser(entry.UID)
+    err, user := a.Store.User.GetId(entry.UID)
     if err != nil {
         log.Error(err)
         return c.String(403, "Invalid user")
     }
 
     user.Password = payload.Password
-    a.DB.Save(user)
+    a.Store.DB.Save(user)
 
-    a.DB.Delete(entry)
+    a.Store.DB.Delete(entry)
 
     return c.JSON(http.StatusOK, map[string]string{
         "message": "password updated",

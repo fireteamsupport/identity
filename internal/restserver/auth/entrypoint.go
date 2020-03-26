@@ -3,8 +3,7 @@ package authroutes
 import (
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/restserver/utils"
-
+    "github.com/fireteamsupport/identity/internal/initializer"
 )
 
 var (
@@ -12,10 +11,10 @@ var (
 )
 
 type auth struct {
-    *restutils.Options
+    *initializer.Rest
 }
 
-func New(g *echo.Group, opts *restutils.Options) error {
+func New(g *echo.Group, opts *initializer.Rest) error {
     a := &auth{opts}
 
     g.POST("/login", a.Login)

@@ -23,7 +23,7 @@ func (a *auth) Register(c echo.Context) error {
         return c.String(400, "Unable to parse your input")
     }
 
-    err, dbuser := a.DB.RegisterUser(u.Username, u.Email, u.Password)
+    err, dbuser := a.Store.User.New(u.Username, u.Email, u.Password)
     if err != nil {
         log.Error(err)
         return c.JSON(403, map[string]string{
@@ -32,7 +32,7 @@ func (a *auth) Register(c echo.Context) error {
         })
     }
 
-    verify := a.DB.NewAccountVerification(dbuser.UID)
+    verify := a.Store.AccountVerification.New(dbuser.UID)
     subject := fmt.Sprintf("Here's your verification email %s", dbuser.Username)
 
     a.SendVerificationEmail(dbuser.Email, subject, verify.Token)

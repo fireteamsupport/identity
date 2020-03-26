@@ -9,7 +9,7 @@ require (
 	github.com/caarlos0/env/v6 v6.2.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/validator/v10 v10.2.0
-	github.com/google/wire v0.4.0 // indirect
+	github.com/google/wire v0.4.0
 	github.com/jinzhu/gorm v1.9.12
 	github.com/labstack/echo/v4 v4.1.15
 	github.com/nats-io/nats.go v1.9.1

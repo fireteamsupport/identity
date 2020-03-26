@@ -9,11 +9,11 @@ type (
     }
 )
 
-func NewEnvConfig() (error, *Config) {
+func NewEnvConfig() (*Config, error) {
     cfg := new(Config)
     if err := utils.EnvLoad(cfg); err != nil {
-        return err, nil
+        return nil, err
     }
 
-    return nil, cfg
+    return cfg, nil
 }

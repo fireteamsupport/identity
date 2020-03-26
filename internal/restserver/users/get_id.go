@@ -16,7 +16,7 @@ func (u *user) GetId(c echo.Context) error {
         return c.String(404, "Invalid ID")
     }
 
-    err, dbuser := u.DB.GetUser(uid)
+    err, dbuser := u.Store.User.GetId(uid)
     if err != nil {
         log.Error(err)
         return c.JSON(http.StatusNotFound, &structs.Message{

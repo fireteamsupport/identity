@@ -22,7 +22,7 @@ func (u *user) PatchId(c echo.Context) error {
         })
     }
 
-    err, dbuser := u.DB.GetUser(uid)
+    err, dbuser := u.Store.User.GetId(uid)
     if err != nil {
         log.Error(err)
         return c.JSON(http.StatusNotFound, &structs.Message{
@@ -43,7 +43,7 @@ func (u *user) PatchId(c echo.Context) error {
 
     dbuser.Role = payload.Role
 
-    u.DB.Save(dbuser)
+    u.Store.DB.Save(dbuser)
 
     return c.JSON(http.StatusOK, &structs.Message{
         Message: "Updated user",

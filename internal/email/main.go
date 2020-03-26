@@ -25,17 +25,17 @@ type (
     }
 )
 
-func NewDefault() (error, Email) {
+func NewDefault() (Email, error) {
     err, cfg := NewEnvConfig()
     if err != nil {
-        return err, nil
+        return nil, err
     }
 
-    err, instance := New(cfg)
-    return err, instance
+    instance, err := New(cfg)
+    return instance, err
 }
 
-func New(cfg *Config) (error, Email) {
+func New(cfg *Config) (Email, error) {
     sess, err := session.NewSession(&aws.Config{
         Region: aws.String(cfg.Region),
     })
@@ -46,10 +46,10 @@ func New(cfg *Config) (error, Email) {
 
     svc := ses.New(sess)
 
-    return nil, &email{
+    return &email{
         Session: svc,
         Sender: cfg.Sender,
-    }
+    }, nil
 }
 
 

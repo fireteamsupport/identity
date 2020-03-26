@@ -2,21 +2,21 @@ package userroutes
 
 import (
     "github.com/fireteamsupport/identity/internal/restserver/middleware"
-    "github.com/fireteamsupport/identity/internal/restserver/utils"
-    "github.com/labstack/echo/v4"
+    "github.com/fireteamsupport/identity/internal/initializer"
     "github.com/arturoguerra/go-logging"
+    "github.com/labstack/echo/v4"
 )
 
 var log = logging.New()
 
 type user struct {
-    *restutils.Options
+    *initializer.Rest
 }
 
-func New(g *echo.Group, opts *restutils.Options) error {
+func New(g *echo.Group, opts *initializer.Rest) error {
     u := user{opts}
 
-    m := middleware.New(opts.JWTMgmt)
+    m := middleware.New(opts.JWT)
 
     me := g.Group("/me", m.AuthZDefault)
     me.GET("", u.GetME)

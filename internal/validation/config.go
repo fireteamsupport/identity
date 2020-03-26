@@ -6,11 +6,11 @@ type Config struct {
     EmailAPIKey string `json:"email-api-key" env:"EMAIL_API_KEY"`
 }
 
-func NewEnvConfig() (error, *Config) {
+func NewEnvConfig() (*Config, error) {
     cfg := new(Config)
     if err := utils.EnvLoad(cfg); err != nil {
-        return err, nil
+        return nil, err
     }
 
-    return nil, cfg
+    return cfg, nil
 }

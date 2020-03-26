@@ -4,10 +4,10 @@ import (
     "fmt"
     "github.com/labstack/echo/v4"
     "github.com/arturoguerra/go-logging"
+    "github.com/fireteamsupport/identity/internal/initializer"
 
     auth  "github.com/fireteamsupport/identity/internal/restserver/auth"
     users  "github.com/fireteamsupport/identity/internal/restserver/users"
-    restutils  "github.com/fireteamsupport/identity/internal/restserver/utils"
     middleware "github.com/fireteamsupport/identity/internal/restserver/middleware"
 )
 
@@ -19,26 +19,26 @@ var (
     log = logging.New()
 )
 
-func NewDefault(opts *restutils.Options) (error, *echo.Echo) {
-    err, cfg := NewEnvConfig()
+func NewDefault(opts *initializer.Rest) (*echo.Echo, error) {
+    cfg, err := NewEnvConfig()
     if err != nil {
-        return err, nil
+        return nil, err
     }
 
-    err, e := New(cfg, opts)
+    e, err := New(cfg, opts)
     if err != nil {
-        return err, nil
+        return nil, err
     }
 
-    return nil, e
+    return e, nil
 }
 
 
-func New(cfg *Config, opts *restutils.Options) (error, *echo.Echo) {
+func New(cfg *Config, opts *initializer.Rest) (*echo.Echo, error) {
     e := echo.New()
     baseapi := e.Group(baseURI)
 
-    m := middleware.New(opts.JWTMgmt)
+    m := middleware.New(opts.JWT)
 
     authgrp := baseapi.Group("/auth")
     auth.New(authgrp, opts)
@@ -57,5 +57,5 @@ func New(cfg *Config, opts *restutils.Options) (error, *echo.Echo) {
         }
     }()
 
-    return nil, e
+    return e, nil
 }

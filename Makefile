@@ -1,6 +1,7 @@
 .PHONY: all build clean docker docker-build docker-push docker-test
 
 GOBUILD = go build
+GOGENERATE = go generate
 GORUN = go run
 DOCKER = docker
 APPNAME = identity
@@ -11,8 +12,11 @@ all: clean build
 clean:
 	rm -rf ./bin
 
-build: clean
-	$(GOBUILD) -o bin/$(APPNAME) cmd/$(APPNAME)/*.go
+generate:
+	if [ -f cmd/$(APPNAME)/wire_gen.go ]; then $(GOGENERATE) cmd/$(APPNAME)/wire.go; else wire cmd/$(APPNAME)/wire.go; fi;
+
+build: clean generate
+	$(GOBUILD) -o bin/$(APPNAME) cmd/$(APPNAME)/main.go cmd/$(APPNAME)/wire_gen.go
 
 docker-test:
 	test $(DOCKERREPO)

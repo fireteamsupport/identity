@@ -32,27 +32,27 @@ func (c *Client) Init() error {
     return nil
 }
 
-func New(cfg *Config) (error, *Client) {
+func New(cfg *Config) (*Client, error) {
     db, err := connect(cfg.User, cfg.Password, cfg.Host, cfg.Name)
     if err != nil {
-        return err, nil
+        return nil, err
     }
 
     c := &Client{db,cfg}
 
     if err = c.Init(); err != nil {
-        return err, nil
+        return nil, err
     }
 
-    return err, c
+    return c, err
 }
 
-func NewDefault() (error, *Client) {
+func NewDefault() (*Client, error) {
     err, cfg := NewEnvConfig()
     if err != nil {
-        return err, nil
+        return nil, err
     }
 
-    err, client := New(cfg)
-    return err, client
+    client, err := New(cfg)
+    return client, err
 }

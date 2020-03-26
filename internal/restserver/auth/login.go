@@ -30,7 +30,7 @@ func (a *auth) Login(c echo.Context) error {
         return c.String(http.StatusBadRequest, "Error validating")
     }
 
-    err, dbuser := a.DB.UserLogin(payload.Email)
+    err, dbuser := a.Store.User.GetEmail(payload.Email)
     if err != nil {
         log.Error(err)
         return c.String(http.StatusNotFound, "User not found")
@@ -52,13 +52,13 @@ func (a *auth) Login(c echo.Context) error {
         Username: dbuser.Username,
     }
 
-    token, err := a.JWTMgmt.Sign(user)
+    token, err := a.JWT.Sign(user)
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating user token try again later")
     }
 
-    err, refreshtoken := a.RTMgmt.Create(user.UID, c.RealIP())
+    err, refreshtoken := a.RT.Create(user.UID, c.RealIP())
     if err != nil {
         log.Error(err)
         return c.String(http.StatusInternalServerError, "Error creating refresh token")
