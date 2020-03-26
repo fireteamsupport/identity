@@ -45,7 +45,6 @@ func New(cfg *Config, opts *initializer.Rest) (*echo.Echo, error) {
 
     m := middleware.New(opts.JWT)
 
-    log.Info("Stuffs")
     authgrp := baseapi.Group("/auth")
     auth.New(authgrp, opts)
 

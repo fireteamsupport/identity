@@ -8,8 +8,8 @@ import (
 
 type (
     req_PatchME struct {
-        Username    string `json:"username" validate:"required"`
-        Email       string `json:"email"    validate:"required,email"`
+        Username    string `json:"username"`
+        Email       string `json:"email"    validate:"email"`
         Password    string `json:"password" validate:"required"`
         NewPassword string `json:"new_password"`
     }
@@ -38,7 +38,7 @@ func (u *user) PatchME(c echo.Context) error {
         })
     }
 
-    if payload.Password != dbuser.Password {
+    if !dbuser.ValidPassword(payload.Password) {
         return c.JSON(403, &structs.Message{
             Code: 403,
             Message: "invalid password",

@@ -23,7 +23,12 @@ type emailValidationResponse struct {
 func emailValidation(v *validate) validator.Func {
     baseURL := "https://mailcheck.p.rapidapi.com?domain=%s"
     return func(fl validator.FieldLevel) bool {
-        url := fmt.Sprintf(baseURL, fl.Field().String())
+        field := fl.Field().String()
+        if field == "" {
+            return true
+        }
+
+        url := fmt.Sprintf(baseURL, field)
 
         req, _ := http.NewRequest("GET", url, nil)
 
