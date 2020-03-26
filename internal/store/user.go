@@ -31,7 +31,7 @@ func NewUserStore(db *database.Client) (UserStore, error) {
 func (store *userStore) GetId(uid int64) (error, *models.User) {
     u := models.User{}
     log.Infof("Getting user for UID: %d", uid)
-        if store.Where("UID = ?", uid).First(&u).RecordNotFound() {
+    if store.Where("UID = ?", uid).First(&u).RecordNotFound() {
         return errors.New(errors.NotFound, uid), nil
     }
 

@@ -46,7 +46,7 @@ func (u *user) PatchME(c echo.Context) error {
     }
 
     if payload.NewPassword != "" {
-        dbuser.Password = payload.NewPassword
+        dbuser.NewPassword(payload.NewPassword)
     }
 
     if payload.Username != "" {

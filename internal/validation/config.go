@@ -3,7 +3,7 @@ package validation
 import "github.com/fireteamsupport/identity/internal/utils"
 
 type Config struct {
-    EmailAPIKey string `json:"email-api-key" env:"EMAIL_API_KEY"`
+    EmailAPIKey string `json:"email-api-key" env:"EMAIL_API_KEY,required"`
 }
 
 func NewEnvConfig() (*Config, error) {

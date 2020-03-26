@@ -35,7 +35,7 @@ func main() {
     log.Info("Shuting down...")
     defer restOpts.Store.DB.Close()
 
-    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
     if err = restClient.Shutdown(ctx); err != nil {

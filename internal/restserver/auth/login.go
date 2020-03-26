@@ -30,6 +30,8 @@ func (a *auth) Login(c echo.Context) error {
         return c.String(http.StatusBadRequest, "Error validating")
     }
 
+    log.Infof("Getting user: %s", payload.Email)
+
     err, dbuser := a.Store.User.GetEmail(payload.Email)
     if err != nil {
         log.Error(err)

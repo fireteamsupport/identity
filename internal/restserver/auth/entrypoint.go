@@ -15,6 +15,7 @@ type auth struct {
 }
 
 func New(g *echo.Group, opts *initializer.Rest) error {
+    log.Info("Starting Auth Module...")
     a := &auth{opts}
 
     g.POST("/login", a.Login)

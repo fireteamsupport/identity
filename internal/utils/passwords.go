@@ -12,6 +12,7 @@ func HashPassword(pwd string) (error, string) {
         return err, ""
     }
 
+    log.Info(string(hash))
     return nil, string(hash)
 }
 
@@ -19,7 +20,11 @@ func ComparePasswordToHash(hashed, plain string) bool {
     bhash := []byte(hashed)
     bplain := []byte(plain)
 
+    log.Info(hashed)
+    log.Info(plain)
+
     if err := bcrypt.CompareHashAndPassword(bhash, bplain); err != nil {
+        log.Error(err)
         return false
     }
 

@@ -25,23 +25,7 @@ func (u *User) TableName() string {
     return "profiles"
 }
 
-func (u *User) BeforeCreate(scope *gorm.Scope) error {
-    node, err := snowflake.NewNode(1)
-    if err != nil {
-        return err
-    }
-
-    snowflake := node.Generate()
-
-    scope.SetColumn("UID", snowflake.Int64())
-    scope.SetColumn("CreatedAt", time.Now().UTC())
-    scope.SetColumn("UpdatedAt", time.Now().UTC())
-    scope.SetColumn("Verified", false)
-
-    return nil
-}
-
-func (u *User) BeforeSave(scope *gorm.Scope) error {
+func (u *User) HashPassword() error {
     if u.Password != "" {
         err, pwd := utils.HashPassword(u.Password)
         if err != nil {
@@ -50,6 +34,29 @@ func (u *User) BeforeSave(scope *gorm.Scope) error {
 
         u.Password = pwd
     }
+
+    return nil
+}
+
+func (u *User) NewPassword(password string) {
+    u.Password = password
+    u.HashPassword()
+}
+
+func (u *User) BeforeCreate(scope *gorm.Scope) error {
+    node, err := snowflake.NewNode(1)
+    if err != nil {
+        return err
+    }
+
+    u.HashPassword()
+
+    snowflake := node.Generate()
+
+    scope.SetColumn("UID", snowflake.Int64())
+    scope.SetColumn("CreatedAt", time.Now().UTC())
+    scope.SetColumn("UpdatedAt", time.Now().UTC())
+    scope.SetColumn("Verified", false)
 
     return nil
 }
