@@ -11,33 +11,11 @@ import (
 var log = logging.New()
 
 type (
-    client struct {
+    Client struct {
         *gorm.DB
         Config *Config
-
     }
 
-    Client interface {
-        UserLogin(string) (error, *models.User)
-        GetUser(int64) (error, *models.User)
-        RegisterUser(string, string, string) (error, *models.User)
-
-        NewRefreshToken(int64, string) *models.RefreshToken
-        ClearRefreshTokens(int64) error
-        DeleteRefreshToken(string) error
-        GetRefreshToken(string) (error, *models.RefreshToken)
-        GetRefreshTokens(int64) (error, []*models.RefreshToken)
-
-        NewPasswordReset(int64) *models.PasswordReset
-        GetPasswordReset(string) (error, *models.PasswordReset)
-
-        NewAccountVerification(int64) *models.AccountVerification
-        GetAccountVerification(string) (error, *models.AccountVerification)
-
-        Save(interface{}) *gorm.DB
-        Close() error
-        Delete(interface{}, ...interface{}) *gorm.DB
-    }
 )
 
 func connect(username, password, host, dbname string) (*gorm.DB, error) {
@@ -46,7 +24,7 @@ func connect(username, password, host, dbname string) (*gorm.DB, error) {
     return db, err
 }
 
-func (c *client) Init() error {
+func (c *Client) Init() error {
     c.AutoMigrate(&models.User{})
     c.AutoMigrate(&models.RefreshToken{})
     c.AutoMigrate(&models.AccountVerification{})
@@ -54,13 +32,13 @@ func (c *client) Init() error {
     return nil
 }
 
-func New(cfg *Config) (error, Client) {
+func New(cfg *Config) (error, *Client) {
     db, err := connect(cfg.User, cfg.Password, cfg.Host, cfg.Name)
     if err != nil {
         return err, nil
     }
 
-    c := &client{db,cfg}
+    c := &Client{db,cfg}
 
     if err = c.Init(); err != nil {
         return err, nil
@@ -69,7 +47,7 @@ func New(cfg *Config) (error, Client) {
     return err, c
 }
 
-func NewDefault() (error, Client) {
+func NewDefault() (error, *Client) {
     err, cfg := NewEnvConfig()
     if err != nil {
         return err, nil
