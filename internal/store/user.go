@@ -30,7 +30,7 @@ func NewUserStore(db *database.Client) (UserStore, error) {
 
 func (store *userStore) GetId(uid int64) (error, *models.User) {
     u := models.User{}
-    log.Info("Getting user for UID: %d", uid)
+    log.Infof("Getting user for UID: %d", uid)
         if store.Where("UID = ?", uid).First(&u).RecordNotFound() {
         return errors.New(errors.NotFound, uid), nil
     }
@@ -40,7 +40,7 @@ func (store *userStore) GetId(uid int64) (error, *models.User) {
 
 func (store *userStore) GetEmail(email string) (error, *models.User) {
     u := models.User{}
-    log.Info("Getting user for UID: %s", email)
+    log.Infof("Getting user for Email: %s", email)
         if store.Where("Email = ?", email).First(&u).RecordNotFound() {
         return errors.New(errors.NotFound, email), nil
     }
@@ -52,7 +52,7 @@ func (store *userStore) GetEmail(email string) (error, *models.User) {
 func (store *userStore) New(username, email, password string) (error, *models.User) {
     u := models.User{}
 
-    if store.Where("email = ?", email).First(&u).RecordNotFound() {
+    if store.Where("Email = ?", email).First(&u).RecordNotFound() {
         newUser := &models.User{
             Username: username,
             Email: email,
