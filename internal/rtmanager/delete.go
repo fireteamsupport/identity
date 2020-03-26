@@ -1,6 +1,6 @@
 package rtmanager
 
 func (rt *rtManager) Delete(token string) error {
-    rt.DB.DeleteRefreshToken(token)
+    rt.Store.DeleteByToken(token)
     return nil
 }

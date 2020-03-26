@@ -18,22 +18,23 @@ var storeSet = wire.NewSet(
     store.NewAccountVerificationStore,
     store.NewPasswordResetStore,
     store.NewRefreshTokenStore,
-    wire.Struct(new(initializer.Store), "*"),
+    wire.Struct(new(initializer.Stores), "*"),
 )
 
-var restStore = wire.NewSet(
+var restSet = wire.NewSet(
     storeSet,
     jwtmanager.NewDefault,
-    rtmanager.New
+    rtmanager.New,
     validation.NewDefault,
     wire.Struct(new(initializer.Rest), "*"),
+)
 
-func Stores() (*initalizer.Store, error) {
+func Stores() (*initializer.Stores, error) {
     wire.Build(storeSet)
-    return &initializer.Rest{}, nil
+    return &initializer.Stores{}, nil
 }
 
 func Rest() (*initializer.Rest, error) {
-    wire.Build(resetSet)
+    wire.Build(restSet)
     return &initializer.Rest{}, nil
 }

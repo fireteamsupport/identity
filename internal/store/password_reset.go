@@ -1,6 +1,7 @@
 package store
 
 import (
+    "time"
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 
@@ -15,14 +16,14 @@ type (
     }
 
     PasswordResetStore interface {
-        New(int64) error
+        New(int64) *models.PasswordReset
         GetByToken(string) (error, *models.PasswordReset)
         Save(interface{}) *gorm.DB
         Delete(interface{}, ...interface{}) *gorm.DB
     }
 )
 
-func NewPasswordResetStore(db *database.Client) (*PasswordResetStore, error) {
+func NewPasswordResetStore(db *database.Client) (PasswordResetStore, error) {
     db.AutoMigrate(&models.PasswordReset{})
     return &passwordResetStore{db}, nil
 }

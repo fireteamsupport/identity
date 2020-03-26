@@ -13,6 +13,7 @@ import (
     "github.com/fireteamsupport/identity/internal/jwtmanager"
     "github.com/fireteamsupport/identity/internal/restserver"
     "github.com/fireteamsupport/identity/internal/validation"
+    "github.com/fireteamsupport/identity/internal/store"
     "github.com/fireteamsupport/identity/internal/restserver/utils"
 )
 
@@ -28,6 +29,8 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
+
+    storeRT, _ := store.NewRefreshTokenStore(dbClient)
 
     log.Info("Starting Temp Email client, Will be moved to its own package and use nats later..")
     err, emailClient := email.NewDefault()
@@ -48,7 +51,7 @@ func main() {
     }
 
     log.Info("Starting Refresh Token Manager...")
-    err, rtManager := rtmanager.New(dbClient)
+    err, rtManager := rtmanager.New(storeRT)
     if err != nil {
         log.Fatal(err)
     }

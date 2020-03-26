@@ -1,7 +1,7 @@
 package rtmanager
 
 func (rt *rtManager) GetAll(uid int64) (error, []*RToken) {
-    err, rawrts := rt.DB.GetRefreshTokens(uid)
+    err, rawrts := rt.Store.GetAllByUID(uid)
     if err != nil {
         return err, nil
     }

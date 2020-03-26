@@ -12,7 +12,7 @@ deletedAt same as expires at
 
 import (
     "github.com/arturoguerra/go-logging"
-    "github.com/fireteamsupport/identity/internal/database"
+    "github.com/fireteamsupport/identity/internal/store"
 )
 
 var log = logging.New()
@@ -26,7 +26,7 @@ type (
     }
 
     rtManager struct {
-        DB database.Client
+        Store store.RefreshTokenStore
     }
 
     RTManager interface {
@@ -37,6 +37,6 @@ type (
     }
 )
 
-func New(db database.Client) (error, RTManager) {
-    return nil, &rtManager{db}
+func New(store store.RefreshTokenStore) (error, RTManager) {
+    return nil, &rtManager{store}
 }

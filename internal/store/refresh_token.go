@@ -1,6 +1,7 @@
 package store
 
 import (
+    "time"
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 
@@ -26,7 +27,7 @@ type (
     }
 )
 
-func NewRefreshTokenStore(db *database.Client) (*RefreshTokenStore, error) {
+func NewRefreshTokenStore(db *database.Client) (RefreshTokenStore, error) {
     db.AutoMigrate(&models.RefreshToken{})
     return &refreshTokenStore{db}, nil
 }

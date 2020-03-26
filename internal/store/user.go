@@ -23,7 +23,7 @@ type (
     }
 )
 
-func NewUserStore(db *database.Client) (*UserStore, error) {
+func NewUserStore(db *database.Client) (UserStore, error) {
     db.AutoMigrate(&models.User{})
     return &userStore{db}, nil
 }
@@ -39,6 +39,14 @@ func (store *userStore) GetId(uid int64) (error, *models.User) {
 }
 
 func (store *userStore) GetEmail(email string) (error, *models.User) {
+    u := models.User{}
+    log.Info("Getting user for UID: %s", email)
+        if store.Where("Email = ?", email).First(&u).RecordNotFound() {
+        return errors.New(errors.NotFound, email), nil
+    }
+
+    return nil, &u
+
 }
 
 func (store *userStore) NewUser(username, email, password string) (error, *models.User) {

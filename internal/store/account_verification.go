@@ -1,6 +1,7 @@
 package store
 
 import (
+    "time"
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 
@@ -15,14 +16,14 @@ type (
     }
 
     AccountVerificationStore interface {
-        New(int64) error
+        New(int64) *models.AccountVerification
         GetByToken(string) (error, *models.AccountVerification)
         Save(interface{}) *gorm.DB
         Delete(interface{}, ...interface{}) *gorm.DB
     }
 )
 
-func NewAccountVerificationStore(db *database.Client) (*AccountVerificationStore, error) {
+func NewAccountVerificationStore(db *database.Client) (AccountVerificationStore, error) {
     db.AutoMigrate(&models.AccountVerification{})
     return &accountVerificationStore{db}, nil
 }

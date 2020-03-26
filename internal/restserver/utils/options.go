@@ -15,7 +15,7 @@ type Options struct {
     Validate validation.Validate
     JWTMgmt jwtmanager.JWTManager
     RTMgmt  rtmanager.RTManager
-    DB  database.Client
+    DB  *database.Client
     Email email.Email
 }
 
