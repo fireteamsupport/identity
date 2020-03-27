@@ -1,4 +1,4 @@
-.PHONY: all build clean docker docker-build docker-push docker-test
+.PHONY: all build clean generate docker docker-build docker-push docker-test
 
 GOBUILD = go build
 GOGENERATE = go generate
