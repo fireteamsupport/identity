@@ -6,10 +6,18 @@ import (
     "github.com/fireteamsupport/identity/internal/utils"
     "github.com/labstack/echo/v4"
     "net/http"
+
+    rstructs "github.com/fireteamsupport/identity/internal/restserver/structs"
 )
 
 func (a *auth) RefreshToken(c echo.Context) error {
     err, header := utils.BearerExtractor(c)
+    if err != nil {
+        log.Error(err)
+        return c.JSON(http.StatusUnauthorized, &rstructs.Message{
+            Message: "Invalid or missing token",
+        })
+    }
 
     err, token := a.RT.Get(header)
     if err != nil {
