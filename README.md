@@ -14,3 +14,5 @@
   - GET   - /users/me
   - PATCH - /users/me
 
+**Base** /api/v2  
+Will focuse on oauth2 and OpenID Connect
